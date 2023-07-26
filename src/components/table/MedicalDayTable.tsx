@@ -1,5 +1,6 @@
 import Chip from "@mui/material/Chip";
 import Paper from "@mui/material/Paper";
+
 import {
   DataGrid,
   GridColDef,
@@ -11,12 +12,20 @@ import { useState } from "react";
 import { MedicaDayControllerApi, MedicalDayDTO } from "../../api";
 import { MedicalDayDTOStatoMedicalDayEnum } from "../../api/models/medical-day-dto";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const DEFAULT_PAGE = 0;
 const DEFAULT_PAGE_SIZE = 5;
 
 const columns: GridColDef<MedicalDayDTO>[] = [
-  { field: "id", headerName: "ID" },
+  {
+    field: "id",
+    headerName: "ID",
+    flex: 1,
+    renderCell: (params) => (
+      <Link to={`/visit/${params.value}`}>{params.value}</Link>
+    ),
+  },
   {
     field: "doctor",
     headerName: "Medico",
@@ -31,13 +40,7 @@ const columns: GridColDef<MedicalDayDTO>[] = [
     valueGetter: (param: GridValueGetterParams<MedicalDayDTO>) =>
       param.row.contratto.sede?.provincia,
   },
-  // {
-  //   field: "totalVisits",
-  //   headerName: "Totale visite",
-  //   flex: 1,
-  //   valueGetter: (param: GridValueGetterParams<MedicalDayDTO>) =>
-  //     param.row.visiteMediche?.length || 0,
-  // },
+  // ... altre colonne
   {
     field: "state",
     headerName: "Stato",
