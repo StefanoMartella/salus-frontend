@@ -1,12 +1,20 @@
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import StarIcon from "@mui/icons-material/Star";
 import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import WidgetsIcon from "@mui/icons-material/Widgets";
-import StarIcon from "@mui/icons-material/Star";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { Outlet } from "react-router-dom";
-import MainTabs from "../tabs/MainTabs";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
+import { Outlet } from "react-router-dom";
+import AppTabs, { AppTabMeta } from "../tabs/AppTabs";
+
+const tabs: AppTabMeta[] = [
+  { label: "Dashboard", to: "/dashboard/*" },
+  { label: "Calendario", to: "/calendar/*" },
+  { label: "Visite mediche", to: "/visits/*" },
+  { label: "Contatti", to: "/contacts/*" },
+  { label: "Batch importati", to: "/imports/*" },
+];
 
 function AppLayout() {
   const theme = useTheme();
@@ -58,7 +66,7 @@ function AppLayout() {
           </Grid>
         </Grid>
       </Grid>
-      <MainTabs />
+      <AppTabs tabs={tabs} />
       <Grid container margin={1}>
         <Outlet />
       </Grid>

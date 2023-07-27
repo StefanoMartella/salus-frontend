@@ -4,6 +4,7 @@ import {
   DataGrid,
   GridColDef,
   GridPaginationModel,
+  GridRowParams,
   GridValueGetterParams,
 } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
@@ -11,6 +12,7 @@ import { useState } from "react";
 import { MedicaDayControllerApi, MedicalDayDTO } from "../../api";
 import { MedicalDayDTOStatoMedicalDayEnum } from "../../api/models/medical-day-dto";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const DEFAULT_PAGE = 0;
 const DEFAULT_PAGE_SIZE = 5;
@@ -62,6 +64,7 @@ const columns: GridColDef<MedicalDayDTO>[] = [
 ];
 
 function MedicalDayTable() {
+  const navigate = useNavigate();
   const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
     page: DEFAULT_PAGE,
     pageSize: DEFAULT_PAGE_SIZE,
@@ -93,6 +96,9 @@ function MedicalDayTable() {
           rowCount={data.totalElements}
           rows={data?.content}
           columns={columns}
+          onRowClick={(item: GridRowParams<MedicalDayDTO>) =>
+            navigate(`/visits/${item.row.id}`)
+          }
           initialState={{
             pagination: {
               paginationModel: {
