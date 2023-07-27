@@ -14,6 +14,10 @@ export function getCurrentYearNumber(): string {
   return new Date().toLocaleDateString("it", { year: "numeric" });
 }
 
+export function getFormattedDate(date?: Date): string {
+  return (date ?? new Date()).toISOString().split("T")[0];
+}
+
 export function getCurrentTime(): string {
   return new Date().toTimeString().split(" ")[0];
 }

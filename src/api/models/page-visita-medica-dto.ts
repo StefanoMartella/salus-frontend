@@ -34,6 +34,18 @@ export interface PageVisitaMedicaDTO {
     totalPages?: number;
     /**
      * 
+     * @type {boolean}
+     * @memberof PageVisitaMedicaDTO
+     */
+    first?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PageVisitaMedicaDTO
+     */
+    last?: boolean;
+    /**
+     * 
      * @type {number}
      * @memberof PageVisitaMedicaDTO
      */
@@ -56,18 +68,6 @@ export interface PageVisitaMedicaDTO {
      * @memberof PageVisitaMedicaDTO
      */
     sort?: SortObject;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PageVisitaMedicaDTO
-     */
-    first?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PageVisitaMedicaDTO
-     */
-    last?: boolean;
     /**
      * 
      * @type {number}

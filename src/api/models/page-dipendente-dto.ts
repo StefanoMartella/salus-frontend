@@ -34,6 +34,18 @@ export interface PageDipendenteDTO {
     totalPages?: number;
     /**
      * 
+     * @type {boolean}
+     * @memberof PageDipendenteDTO
+     */
+    first?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PageDipendenteDTO
+     */
+    last?: boolean;
+    /**
+     * 
      * @type {number}
      * @memberof PageDipendenteDTO
      */
@@ -56,18 +68,6 @@ export interface PageDipendenteDTO {
      * @memberof PageDipendenteDTO
      */
     sort?: SortObject;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PageDipendenteDTO
-     */
-    first?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PageDipendenteDTO
-     */
-    last?: boolean;
     /**
      * 
      * @type {number}

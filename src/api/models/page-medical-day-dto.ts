@@ -34,6 +34,18 @@ export interface PageMedicalDayDTO {
     totalPages?: number;
     /**
      * 
+     * @type {boolean}
+     * @memberof PageMedicalDayDTO
+     */
+    first?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PageMedicalDayDTO
+     */
+    last?: boolean;
+    /**
+     * 
      * @type {number}
      * @memberof PageMedicalDayDTO
      */
@@ -56,18 +68,6 @@ export interface PageMedicalDayDTO {
      * @memberof PageMedicalDayDTO
      */
     sort?: SortObject;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PageMedicalDayDTO
-     */
-    first?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PageMedicalDayDTO
-     */
-    last?: boolean;
     /**
      * 
      * @type {number}

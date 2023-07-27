@@ -34,6 +34,18 @@ export interface PageVisitaMedicaCaledarioDTO {
     totalPages?: number;
     /**
      * 
+     * @type {boolean}
+     * @memberof PageVisitaMedicaCaledarioDTO
+     */
+    first?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PageVisitaMedicaCaledarioDTO
+     */
+    last?: boolean;
+    /**
+     * 
      * @type {number}
      * @memberof PageVisitaMedicaCaledarioDTO
      */
@@ -56,18 +68,6 @@ export interface PageVisitaMedicaCaledarioDTO {
      * @memberof PageVisitaMedicaCaledarioDTO
      */
     sort?: SortObject;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PageVisitaMedicaCaledarioDTO
-     */
-    first?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PageVisitaMedicaCaledarioDTO
-     */
-    last?: boolean;
     /**
      * 
      * @type {number}

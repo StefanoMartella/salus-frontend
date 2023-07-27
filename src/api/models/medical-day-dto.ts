@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 import { Contratto } from './contratto';
+import { VisitaMedica } from './visita-medica';
 /**
  * 
  * @export
@@ -30,6 +31,12 @@ export interface MedicalDayDTO {
      * @memberof MedicalDayDTO
      */
     data: string;
+    /**
+     * 
+     * @type {Array<VisitaMedica>}
+     * @memberof MedicalDayDTO
+     */
+    visiteMediche?: Array<VisitaMedica>;
     /**
      * 
      * @type {Contratto}

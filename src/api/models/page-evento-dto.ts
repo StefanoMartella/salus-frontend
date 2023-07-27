@@ -34,6 +34,18 @@ export interface PageEventoDTO {
     totalPages?: number;
     /**
      * 
+     * @type {boolean}
+     * @memberof PageEventoDTO
+     */
+    first?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PageEventoDTO
+     */
+    last?: boolean;
+    /**
+     * 
      * @type {number}
      * @memberof PageEventoDTO
      */
@@ -56,18 +68,6 @@ export interface PageEventoDTO {
      * @memberof PageEventoDTO
      */
     sort?: SortObject;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PageEventoDTO
-     */
-    first?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PageEventoDTO
-     */
-    last?: boolean;
     /**
      * 
      * @type {number}

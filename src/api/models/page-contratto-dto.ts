@@ -34,6 +34,18 @@ export interface PageContrattoDTO {
     totalPages?: number;
     /**
      * 
+     * @type {boolean}
+     * @memberof PageContrattoDTO
+     */
+    first?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PageContrattoDTO
+     */
+    last?: boolean;
+    /**
+     * 
      * @type {number}
      * @memberof PageContrattoDTO
      */
@@ -56,18 +68,6 @@ export interface PageContrattoDTO {
      * @memberof PageContrattoDTO
      */
     sort?: SortObject;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PageContrattoDTO
-     */
-    first?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PageContrattoDTO
-     */
-    last?: boolean;
     /**
      * 
      * @type {number}

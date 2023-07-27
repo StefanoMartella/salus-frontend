@@ -51,7 +51,7 @@ export const EventoControllerApiAxiosParamCreator = function (configuration?: Co
             }
             const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {...page, ...criteria} as any;
+            const localVarQueryParameter = {...criteria, ...page} as any;
 
             // if (criteria !== undefined) {
             //     localVarQueryParameter['criteria'] = criteria;
