@@ -1,19 +1,12 @@
-import Paper from "@mui/material/Paper";
+import { GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+// import { useNavigate } from "react-router-dom";
 import {
-  DataGrid,
-  GridColDef,
-  GridPaginationModel,
-  GridRowParams,
-  GridValueGetterParams,
-} from "@mui/x-data-grid";
-import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { MedicaDayControllerApi, MedicalDayDTO } from "../../api";
+  MedicaDayControllerApi,
+  MedicalDayDTO,
+  PageMedicalDayDTO,
+} from "../../api";
 import MedicalDayState from "../shared/MedicalDayState";
-
-const DEFAULT_PAGE = 0;
-const DEFAULT_PAGE_SIZE = 5;
+import ServerSideTable from "./ServerSideTable";
 
 const columns: GridColDef<MedicalDayDTO>[] = [
   { field: "id", headerName: "ID" },
@@ -31,13 +24,6 @@ const columns: GridColDef<MedicalDayDTO>[] = [
     valueGetter: (param: GridValueGetterParams<MedicalDayDTO>) =>
       param.row.contratto.sede?.provincia,
   },
-  // {
-  //   field: "totalVisits",
-  //   headerName: "Totale visite",
-  //   flex: 1,
-  //   valueGetter: (param: GridValueGetterParams<MedicalDayDTO>) =>
-  //     param.row.visiteMediche?.length || 0,
-  // },
   {
     field: "state",
     headerName: "Stato",
@@ -49,52 +35,20 @@ const columns: GridColDef<MedicalDayDTO>[] = [
 ];
 
 function MedicalDayTable() {
-  const navigate = useNavigate();
-  const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
-    page: DEFAULT_PAGE,
-    pageSize: DEFAULT_PAGE_SIZE,
-  });
-  const { data, isLoading, refetch } = useQuery({
-    queryKey: ["medical-days"],
-    queryFn: () =>
-      new MedicaDayControllerApi().findAll3(
-        {},
-        { page: paginationModel.page, size: paginationModel.pageSize },
-      ),
-    select: (response) => response.data,
-    enabled: false,
-  });
-
-  useEffect(() => {
-    refetch();
-  }, [paginationModel, refetch]);
+  // const navigate = useNavigate();
 
   return (
-    <Paper sx={{ height: "auto", width: "100%" }}>
-      {data?.content?.length && (
-        <DataGrid
-          paginationMode="server"
-          loading={isLoading}
-          paginationModel={paginationModel}
-          onPaginationModelChange={setPaginationModel}
-          pageSizeOptions={[DEFAULT_PAGE_SIZE, 10]}
-          rowCount={data.totalElements}
-          rows={data?.content}
-          columns={columns}
-          onRowClick={(item: GridRowParams<MedicalDayDTO>) =>
-            navigate(`/visits/${item.row.id}`)
-          }
-          initialState={{
-            pagination: {
-              paginationModel: {
-                page: DEFAULT_PAGE,
-                pageSize: DEFAULT_PAGE_SIZE,
-              },
-            },
-          }}
-        />
-      )}
-    </Paper>
+    <ServerSideTable<PageMedicalDayDTO, MedicalDayDTO>
+      header="Elenco medical-days"
+      columns={columns}
+      queryKey="medical-days"
+      queryFn={(paginationModel) =>
+        new MedicaDayControllerApi().findAll3(
+          {},
+          { page: paginationModel.page, size: paginationModel.pageSize },
+        )
+      }
+    />
   );
 }
 
