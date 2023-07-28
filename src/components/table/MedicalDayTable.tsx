@@ -1,4 +1,3 @@
-import Chip from "@mui/material/Chip";
 import Paper from "@mui/material/Paper";
 import {
   DataGrid,
@@ -8,11 +7,10 @@ import {
   GridValueGetterParams,
 } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
-import { MedicaDayControllerApi, MedicalDayDTO } from "../../api";
-import { MedicalDayDTOStatoMedicalDayEnum } from "../../api/models/medical-day-dto";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { MedicaDayControllerApi, MedicalDayDTO } from "../../api";
+import MedicalDayState from "../shared/MedicalDayState";
 
 const DEFAULT_PAGE = 0;
 const DEFAULT_PAGE_SIZE = 5;
@@ -45,20 +43,7 @@ const columns: GridColDef<MedicalDayDTO>[] = [
     headerName: "Stato",
     flex: 1,
     renderCell: (value) => (
-      <Chip
-        label={
-          value.row.statoMedicalDay ===
-          MedicalDayDTOStatoMedicalDayEnum.COMPLETO
-            ? "Completo"
-            : "In lavorazione"
-        }
-        color={
-          value.row.statoMedicalDay ===
-          MedicalDayDTOStatoMedicalDayEnum.COMPLETO
-            ? "success"
-            : "warning"
-        }
-      />
+      <MedicalDayState state={value.row.statoMedicalDay} />
     ),
   },
 ];

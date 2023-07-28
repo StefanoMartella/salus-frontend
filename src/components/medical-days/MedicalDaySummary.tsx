@@ -2,15 +2,19 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
-import { MedicalDay } from "../../api";
+import { MedicalDay, MedicalDayDTOStatoMedicalDayEnum } from "../../api";
 import SummarizeIcon from "@mui/icons-material/Summarize";
 import { VisitaMedicaStatoVisitaMedicaEnum } from "../../api/models/visita-medica";
+import MedicalDayState from "../shared/MedicalDayState";
+import { useTheme } from "@mui/material/styles";
 
 type Props = {
   medicalDay: MedicalDay;
 };
 
 function MedicalDaySummary({ medicalDay }: Props) {
+  const theme = useTheme();
+
   return (
     <Box
       sx={{
@@ -54,7 +58,15 @@ function MedicalDaySummary({ medicalDay }: Props) {
         <Grid item xs={3}>
           <Typography marginY={2}>Stato</Typography>
           <Divider />
-          <Typography marginY={2}>{medicalDay.statoMedicalDay}</Typography>
+          <MedicalDayState
+            style={{
+              marginTop: theme.spacing(2),
+              marginBottom: theme.spacing(2),
+            }}
+            state={
+              medicalDay.statoMedicalDay as unknown as MedicalDayDTOStatoMedicalDayEnum
+            }
+          />
         </Grid>
       </Grid>
     </Box>

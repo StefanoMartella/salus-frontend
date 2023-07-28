@@ -2,6 +2,7 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
+  Navigate,
 } from "react-router-dom";
 import AppLayout from "../components/layout/AppLayout";
 import MedicalDaysLayout from "../components/layout/MedicalDaysLayout";
@@ -12,7 +13,8 @@ import MedicalDaysPage from "../pages/medical-days/MedicalDaysPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<AppLayout />}>
+    <Route element={<AppLayout />}>
+      <Route index element={<Navigate to="/dashboard" />} />
       <Route path="dashboard" element={<DashboardPage />} />
       <Route
         path="calendar"
