@@ -1,23 +1,22 @@
+import { Grid, Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid";
 import { DataGrid, DataGridProps, GridPaginationModel } from "@mui/x-data-grid";
-import { useState } from "react";
-import Typography from "@mui/material/Typography";
-
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 const DEFAULT_PAGE = 0;
-const DEFAULT_PAGE_SIZE = 5;
+const DEFAULT_PAGE_SIZE = 1;
 
 type Props = DataGridProps & {
   header?: string;
 };
-
-function ClientSideTable({ header, rows, ...rest }: Props) {
+function ServerSideTable({ header, rows, ...rest }: Props) {
+  const navigate = useNavigate();
   const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
     page: DEFAULT_PAGE,
     pageSize: DEFAULT_PAGE_SIZE,
   });
 
-  return rows?.length ? (
+  return (
     <Grid container>
       {header ? (
         <Typography variant="h6" marginY={2} marginBottom={2}>
@@ -27,11 +26,12 @@ function ClientSideTable({ header, rows, ...rest }: Props) {
       <Paper sx={{ height: "auto", width: "100%" }}>
         <DataGrid
           {...rest}
+          paginationMode="server"
+          rows={rows}
+          onRowClick={() => navigate(`/contacts`)}
           paginationModel={paginationModel}
           onPaginationModelChange={setPaginationModel}
-          pageSizeOptions={[DEFAULT_PAGE_SIZE, 10]}
-          rows={rows}
-          hideFooter
+          pageSizeOptions={[DEFAULT_PAGE_SIZE, 5]}
           initialState={{
             pagination: {
               paginationModel: {
@@ -43,7 +43,7 @@ function ClientSideTable({ header, rows, ...rest }: Props) {
         />
       </Paper>
     </Grid>
-  ) : null;
+  );
 }
 
-export default ClientSideTable;
+export default ServerSideTable;

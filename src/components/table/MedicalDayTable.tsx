@@ -54,6 +54,7 @@ function MedicalDayTable() {
     page: DEFAULT_PAGE,
     pageSize: DEFAULT_PAGE_SIZE,
   });
+
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["medical-days"],
     queryFn: () =>

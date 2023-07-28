@@ -1,6 +1,7 @@
 import { Dipendente } from "../../api";
 import ClientSideTable from "./ClientSideTable";
 import { GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import { useNavigate } from "react-router-dom";
 
 const columns: GridColDef<Dipendente>[] = [
   { field: "id", headerName: "ID" },
@@ -38,8 +39,15 @@ type Props = {
 };
 
 function PatientsTable({ patients }: Props) {
+  const navigate = useNavigate();
+
   return (
-    <ClientSideTable header="Pazienti" rows={patients} columns={columns} />
+    <ClientSideTable
+      onRowClick={() => navigate(`/contacts`)}
+      header="Pazienti"
+      rows={patients}
+      columns={columns}
+    />
   );
 }
 

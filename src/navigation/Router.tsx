@@ -10,6 +10,7 @@ import MedicalDaysTabsLayout from "../components/layout/MedicalDaysTabsLayout";
 import DashboardPage from "../pages/dashboard/DashboardPage";
 import MedicalDaysDetailsPage from "../pages/medical-days/MedicalDaysDetailsPage";
 import MedicalDaysPage from "../pages/medical-days/MedicalDaysPage";
+import ContactsPage from "../pages/contacts/ContactsPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -31,14 +32,7 @@ const router = createBrowserRouter(
           <Route path="signatures" element={<span>Foglio firme</span>} />
         </Route>
       </Route>
-      <Route
-        path="contacts"
-        element={
-          <div>
-            <span>Contacts</span>
-          </div>
-        }
-      />
+      <Route path="contacts" element={<ContactsPage />} />
       <Route
         path="imports"
         element={
