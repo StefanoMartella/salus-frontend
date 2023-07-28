@@ -1,5 +1,9 @@
-import { GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
-// import { useNavigate } from "react-router-dom";
+import {
+  GridColDef,
+  GridRowParams,
+  GridValueGetterParams,
+} from "@mui/x-data-grid";
+import { useNavigate } from "react-router-dom";
 import {
   MedicaDayControllerApi,
   MedicalDayDTO,
@@ -35,12 +39,15 @@ const columns: GridColDef<MedicalDayDTO>[] = [
 ];
 
 function MedicalDayTable() {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   return (
     <ServerSideTable<PageMedicalDayDTO, MedicalDayDTO>
       header="Elenco medical-days"
       columns={columns}
+      onRowClick={(item: GridRowParams<MedicalDayDTO>) =>
+        navigate(`/visits/${item.row.id}`)
+      }
       queryKey="medical-days"
       queryFn={(paginationModel) =>
         new MedicaDayControllerApi().findAll3(

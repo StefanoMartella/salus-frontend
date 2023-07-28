@@ -11,6 +11,9 @@ import DashboardPage from "../pages/dashboard/DashboardPage";
 import MedicalDaysDetailsPage from "../pages/medical-days/MedicalDaysDetailsPage";
 import MedicalDaysPage from "../pages/medical-days/MedicalDaysPage";
 import ContactPage from "../pages/contacts/ContactPage";
+import ContactsLayout from "../components/layout/ContactsLayout";
+import ContactsTabsLayout from "../components/layout/ContactsTabsLayout";
+import ContactDetailsPage from "../pages/contacts/ContactDetailsPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -32,7 +35,14 @@ const router = createBrowserRouter(
           <Route path="signatures" element={<span>Foglio firme</span>} />
         </Route>
       </Route>
-      <Route path="contacts" element={<ContactPage />} />
+      <Route path="contacts" element={<ContactsLayout />}>
+        <Route index element={<ContactPage />} />
+        <Route path=":id" element={<ContactsTabsLayout />}>
+          <Route index element={<ContactDetailsPage />} />
+          <Route path="visits" element={<span>Visite</span>} />
+          <Route path="user" element={<span>Utenza</span>} />
+        </Route>
+      </Route>
       <Route
         path="imports"
         element={
