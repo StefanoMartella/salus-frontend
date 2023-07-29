@@ -12,35 +12,12 @@ import Avatar from "@mui/material/Avatar";
 import Divider from "@mui/material/Divider";
 import { useTheme } from "@mui/material/styles";
 import { useQuery } from "@tanstack/react-query";
-import { EventoControllerApi, EventoDTOTipologiaEventoEnum } from "../../api";
+import { EventoControllerApi } from "../../api";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Fragment } from "react";
-
 //con uno switch definiamo una stringa personalizzata per ogni tipo di Evento Enum esistente nel backend
-function getLabelForEventType(eventType: EventoDTOTipologiaEventoEnum): string {
-  switch (eventType) {
-    case EventoDTOTipologiaEventoEnum.VISITAMEDICAEFFETTUATA:
-      return "Visita medica effettuata";
-    case EventoDTOTipologiaEventoEnum.VISITAMEDICAANNULLATA:
-      return "Visita medica annullata";
-    case EventoDTOTipologiaEventoEnum.VISITAMEDICACONCLUSA:
-      return "Visita medica conclusa";
-    case EventoDTOTipologiaEventoEnum.VISITAMEDICANONEFFETTUATA:
-      return "Visita medica non effettuata";
-    case EventoDTOTipologiaEventoEnum.VISITAMEDICASCADUTA:
-      return "Visita medica scaduta";
-    case EventoDTOTipologiaEventoEnum.VISITAMEDICAPRENOTATA:
-      return "Visita medica prenotata";
-    case EventoDTOTipologiaEventoEnum.SCADENZAVISITAMODIFICATA:
-      return "Scadenza visita medica";
-    case EventoDTOTipologiaEventoEnum.ELIMINATOCERTIFICATOMEDICO:
-      return "Certificato medico eliminato";
-    case EventoDTOTipologiaEventoEnum.ALLEGATOCERTIFICATOMEDICO:
-      return "Certificato medico allegato";
-    case EventoDTOTipologiaEventoEnum.ASSEGNATOILMEDICALDAY:
-      return "Medical day assegnato";
-  }
-}
+
+import { getLabelForEventType } from "../../utils/event-utils";
 
 //Componente TodayEvents
 function TodayEvents() {

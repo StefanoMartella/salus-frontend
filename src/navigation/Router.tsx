@@ -2,6 +2,7 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
+  Navigate,
 } from "react-router-dom";
 import AppLayout from "../components/layout/AppLayout";
 import MedicalDaysLayout from "../components/layout/MedicalDaysLayout";
@@ -9,12 +10,15 @@ import MedicalDaysTabsLayout from "../components/layout/MedicalDaysTabsLayout";
 import DashboardPage from "../pages/dashboard/DashboardPage";
 import MedicalDaysDetailsPage from "../pages/medical-days/MedicalDaysDetailsPage";
 import MedicalDaysPage from "../pages/medical-days/MedicalDaysPage";
+import ContactPage from "../pages/contacts/ContactPage";
+import ContactsLayout from "../components/layout/ContactsLayout";
+import ContactsTabsLayout from "../components/layout/ContactsTabsLayout";
+import ContactDetailsPage from "../pages/contacts/ContactDetailsPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    //al path default viene mostrato il component AppLayout. Dentro e sotto a questo, verranno mostrati alternativamente altri componenti
-    //a seconda del path aggiunto a quello base. Sono componenti innestati
-    <Route path="/" element={<AppLayout />}>
+    <Route element={<AppLayout />}>
+      <Route index element={<Navigate to="/dashboard" />} />
       <Route path="dashboard" element={<DashboardPage />} />
       <Route
         path="calendar"
@@ -31,14 +35,14 @@ const router = createBrowserRouter(
           <Route path="signatures" element={<span>Foglio firme</span>} />
         </Route>
       </Route>
-      <Route
-        path="contacts"
-        element={
-          <div>
-            <span>Contacts</span>
-          </div>
-        }
-      />
+      <Route path="contacts" element={<ContactsLayout />}>
+        <Route index element={<ContactPage />} />
+        <Route path=":id" element={<ContactsTabsLayout />}>
+          <Route index element={<ContactDetailsPage />} />
+          <Route path="visits" element={<span>Visite</span>} />
+          <Route path="user" element={<span>Utenza</span>} />
+        </Route>
+      </Route>
       <Route
         path="imports"
         element={

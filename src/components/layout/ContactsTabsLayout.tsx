@@ -3,14 +3,15 @@ import AppTabs, { AppTabMeta } from "../tabs/AppTabs";
 import { useMemo } from "react";
 import { useTheme } from "@mui/material/styles";
 
-function MedicalDaysTabsLayout() {
+function ContactsTabsLayout() {
   const theme = useTheme();
   const { id } = useParams();
 
   const tabs: AppTabMeta[] = useMemo(
     () => [
-      { label: "Dettagli", to: `/visits/${id}` },
-      { label: "Foglio firme", to: `/visits/${id}/signatures` },
+      { label: "Informazioni", to: `/contacts/${id}` },
+      { label: "Visite", to: `/contacts/${id}/visits` },
+      { label: "Utenza", to: `/contacts/${id}/user` },
     ],
     [id],
   );
@@ -23,4 +24,4 @@ function MedicalDaysTabsLayout() {
   );
 }
 
-export default MedicalDaysTabsLayout;
+export default ContactsTabsLayout;
