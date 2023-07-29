@@ -12,6 +12,8 @@ import MedicalDaysPage from "../pages/medical-days/MedicalDaysPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
+    //al path default viene mostrato il component AppLayout. Dentro e sotto a questo, verranno mostrati alternativamente altri componenti
+    //a seconda del path aggiunto a quello base. Sono componenti innestati
     <Route path="/" element={<AppLayout />}>
       <Route path="dashboard" element={<DashboardPage />} />
       <Route

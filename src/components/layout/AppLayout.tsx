@@ -8,6 +8,7 @@ import { useTheme } from "@mui/material/styles";
 import { Outlet } from "react-router-dom";
 import AppTabs, { AppTabMeta } from "../tabs/AppTabs";
 
+//importiamo AppTabMeta dal component AppTabs e lo rendiamo un array e definiamo i diversi paths utili
 const tabs: AppTabMeta[] = [
   { label: "Dashboard", to: "/dashboard/*" },
   { label: "Calendario", to: "/calendar/*" },

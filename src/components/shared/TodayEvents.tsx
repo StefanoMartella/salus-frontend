@@ -16,6 +16,7 @@ import { EventoControllerApi, EventoDTOTipologiaEventoEnum } from "../../api";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Fragment } from "react";
 
+//con uno switch definiamo una stringa personalizzata per ogni tipo di Evento Enum esistente nel backend
 function getLabelForEventType(eventType: EventoDTOTipologiaEventoEnum): string {
   switch (eventType) {
     case EventoDTOTipologiaEventoEnum.VISITAMEDICAEFFETTUATA:
@@ -41,8 +42,10 @@ function getLabelForEventType(eventType: EventoDTOTipologiaEventoEnum): string {
   }
 }
 
+//Componente TodayEvents
 function TodayEvents() {
   const theme = useTheme();
+  //richiesta al backend di tutti gli eventi presenti, con paginazione
   const { data: events, isLoading } = useQuery({
     queryKey: ["events"],
     queryFn: () => new EventoControllerApi().findAll4({}, { page: 0, size: 4 }),
@@ -52,6 +55,7 @@ function TodayEvents() {
     <Card style={{ backgroundColor: "white" }}>
       <CardHeader
         component={() => (
+          //la prop component permette di renderizzare un componente dentro il CardHeader
           <Box
             style={{
               backgroundColor: theme.palette.primary.light,
@@ -75,6 +79,7 @@ function TodayEvents() {
         ) : (
           <List>
             {events?.data.content?.map((event, i) => (
+              //cicliamo tutti gli eventi restituiti dalla chiamata al backend (sopra) e li renderizziamo come lista
               <Fragment key={event.id}>
                 <ListItem>
                   <ListItemAvatar>
@@ -82,6 +87,8 @@ function TodayEvents() {
                       <CalendarMonthIcon />
                     </Avatar>
                   </ListItemAvatar>
+                  {/* Vie usato per scrivere il testo dentra la lista: primary è il titolo, seconday è il corpo del testo.
+                  Se la proprietà tipologiaEvento dell'oggetto event esiste e ha un valore diverso da null, undefined o false, viene chiamata la funzione getLabelForEventType() con event.tipologiaEvento come argomento. */}
                   <ListItemText
                     primary={`${
                       event.tipologiaEvento &&
@@ -95,6 +102,7 @@ function TodayEvents() {
                     }
                   />
                 </ListItem>
+                {/* arrivato all'ultimo elemento, non mettiamo il componente che forma la riga di divisore tra gli elementi*/}
                 {i !== (events.data.content?.length as number) - 1 && (
                   <Divider />
                 )}

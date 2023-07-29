@@ -18,7 +18,7 @@ function TodaySection() {
   const [currentTime, setCurrentTime] = useState<string>(getCurrentTime());
 
   useEffect(() => {
-    const interval = setInterval(() => setCurrentTime(getCurrentTime()), 1000);
+    const interval = setInterval(() => setCurrentTime(getCurrentTime()), 1000); //aggiorna ogni secondo l'orario attuale
 
     return () => {
       clearInterval(interval);

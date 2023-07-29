@@ -4,18 +4,20 @@ import { useTheme } from "@mui/material/styles";
 import { Link } from "react-router-dom";
 import { useRouteMatch } from "../../hooks/useRouteMatch";
 
+//definiamo un tipo che contiene props "to" e "label" di tipo string
 export type AppTabMeta = {
   to: string;
   label: string;
 };
 
+//definiamo un tipo che estende le props di TabsProps (di Material) e gli aggiungiamo noi la proprietà tabs
 type Props = TabsProps & {
   tabs: AppTabMeta[];
 };
 
 function AppTabs({ tabs, ...rest }: Props) {
   const theme = useTheme();
-  const routeMatch = useRouteMatch(tabs.map((t) => t.to));
+  const routeMatch = useRouteMatch(tabs.map((t) => t.to)); //confronta i paths passati in input e se corrisponde a quello corrente, ne restituisce l'oggetto
   const currentTab = routeMatch?.pattern?.path;
 
   return (
