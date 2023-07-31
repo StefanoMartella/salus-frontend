@@ -17,6 +17,7 @@ const tabs: AppTabMeta[] = [
   { label: "Batch importati", to: "/imports/*" },
 ];
 
+//componente che corrisponde alla barra di navigazione in alto, uguale per ogni pagina del nostro sito web
 function AppLayout() {
   const theme = useTheme();
 
