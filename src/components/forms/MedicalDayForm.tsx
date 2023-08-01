@@ -6,6 +6,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { useQueries } from "@tanstack/react-query";
 import { AxiosResponse } from "axios";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
   ContrattoControllerApi,
@@ -24,6 +25,8 @@ export type MedicalDayFormValues = {
 
 //componente del form
 function MedicalDayForm() {
+  const [selectedProvince, setSelectedProvince] = useState("");
+
   //useForm restituisce l'oggetto formState, la funzione handleSubmit e l'oggetto control. Quest'ultimo è utile per la gestione degli stati di input del form e per le validazioni. Sotto viene assegnato alla props control di <Controller> per collegare il campo input "province" al form
   //settiamo poi i valori di default delle stringhe dei campi di input
   const {
@@ -48,13 +51,27 @@ function MedicalDayForm() {
         select: (response: AxiosResponse<SedeDTO[]>) => response.data,
       },
       {
-        queryKey: ["doctors"],
-        queryFn: () => new ContrattoControllerApi().findAll6({}, {}),
+        queryKey: ["doctors", selectedProvince],
+        queryFn: () =>
+          new ContrattoControllerApi().findAll6(
+            {
+              sedeId: {
+                equals: selectedProvince as unknown as number,
+              },
+            },
+            { page: 0, size: 5 },
+          ),
         //la findAll (puoi controllare) qui restituisce un oggetto PageContrattoDTO, che contiene vari attributi, tra cui il content che contiene un array di ContrattoDTO
         select: (response: AxiosResponse<PageContrattoDTO>) => response.data,
+        enabled: selectedProvince !== "",
       },
     ],
   });
+  console.log("idProvince: ", selectedProvince as unknown as number);
+
+  // useEffect(() => {
+  //   refetch();
+  // }, [selectedProvince, refetch]);
 
   return (
     <Grid container gap={3} padding={2}>
@@ -78,7 +95,11 @@ function MedicalDayForm() {
                 value={value}
                 label="Provincia"
                 placeholder="Seleziona provincia"
-                onChange={onChange}
+                onChange={(event) => {
+                  onChange(event.target.value);
+                  setSelectedProvince(event.target.value);
+                  console.log(event.target.value);
+                }}
               >
                 {provinces?.map((p) => (
                   <MenuItem key={p.id} value={p.id}>

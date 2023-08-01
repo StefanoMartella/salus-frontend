@@ -11,617 +11,1018 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import globalAxios, { AxiosResponse, AxiosInstance, AxiosRequestConfig } from 'axios';
-import { Configuration } from '../configuration';
+import globalAxios, {
+  AxiosInstance,
+  AxiosRequestConfig,
+  AxiosResponse,
+} from "axios";
+import { Configuration } from "../configuration";
 // Some imports not used depending on template conditions
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
-import { ErrorMessage } from '../models';
-import { PageVisitaMedicaCaledarioDTO } from '../models';
-import { PageVisitaMedicaDTO } from '../models';
-import { Pageable } from '../models';
-import { UpdateVisitaMedicaDTO } from '../models';
-import { VisitaIdCertificatoBody } from '../models';
-import { VisitaMedicaCertificatoDTO } from '../models';
-import { VisitaMedicaCriteria } from '../models';
-import { VisitaMedicaDTO } from '../models';
+import flatten from "flat";
+import { BASE_PATH, BaseAPI, RequestArgs, RequiredError } from "../base";
+import {
+  PageVisitaMedicaCaledarioDTO,
+  PageVisitaMedicaDTO,
+  Pageable,
+  UpdateVisitaMedicaDTO,
+  VisitaIdCertificatoBody,
+  VisitaMedicaCertificatoDTO,
+  VisitaMedicaCriteria,
+  VisitaMedicaDTO,
+} from "../models";
 /**
  * VisitaMedicaControllerApi - axios parameter creator
  * @export
  */
-export const VisitaMedicaControllerApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * 
-         * @param {UpdateVisitaMedicaDTO} body 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        createVisitaMedica: async (body: UpdateVisitaMedicaDTO, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling createVisitaMedica.');
-            }
-            const localVarPath = `/api/visita-medica`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+export const VisitaMedicaControllerApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     *
+     * @param {UpdateVisitaMedicaDTO} body
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createVisitaMedica: async (
+      body: UpdateVisitaMedicaDTO,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'body' is not null or undefined
+      if (body === null || body === undefined) {
+        throw new RequiredError(
+          "body",
+          "Required parameter body was null or undefined when calling createVisitaMedica.",
+        );
+      }
+      const localVarPath = `/api/visita-medica`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions: AxiosRequestConfig = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
-            localVarHeaderParameter['Content-Type'] = 'application/json';
+      localVarHeaderParameter["Content-Type"] = "application/json";
 
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers?.['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+      const query = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        query.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.params) {
+        query.set(key, options.params[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(query).toString();
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      const needsSerialization =
+        typeof body !== "string" ||
+        localVarRequestOptions.headers?.["Content-Type"] === "application/json";
+      localVarRequestOptions.data = needsSerialization
+        ? JSON.stringify(body !== undefined ? body : {})
+        : body || "";
 
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {number} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        deleteById: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling deleteById.');
-            }
-            const localVarPath = `/api/visita-medica/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+      return {
+        url:
+          localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {number} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteById: async (
+      id: number,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      if (id === null || id === undefined) {
+        throw new RequiredError(
+          "id",
+          "Required parameter id was null or undefined when calling deleteById.",
+        );
+      }
+      const localVarPath = `/api/visita-medica/{id}`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions: AxiosRequestConfig = {
+        method: "DELETE",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+      const query = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        query.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.params) {
+        query.set(key, options.params[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(query).toString();
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
 
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {number} visitaId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        deleteCertificati: async (visitaId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'visitaId' is not null or undefined
-            if (visitaId === null || visitaId === undefined) {
-                throw new RequiredError('visitaId','Required parameter visitaId was null or undefined when calling deleteCertificati.');
-            }
-            const localVarPath = `/api/visita-medica/visite/{visitaId}/certificato`
-                .replace(`{${"visitaId"}}`, encodeURIComponent(String(visitaId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+      return {
+        url:
+          localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {number} visitaId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteCertificati: async (
+      visitaId: number,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'visitaId' is not null or undefined
+      if (visitaId === null || visitaId === undefined) {
+        throw new RequiredError(
+          "visitaId",
+          "Required parameter visitaId was null or undefined when calling deleteCertificati.",
+        );
+      }
+      const localVarPath =
+        `/api/visita-medica/visite/{visitaId}/certificato`.replace(
+          `{${"visitaId"}}`,
+          encodeURIComponent(String(visitaId)),
+        );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions: AxiosRequestConfig = {
+        method: "DELETE",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+      const query = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        query.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.params) {
+        query.set(key, options.params[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(query).toString();
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
 
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {number} visitaId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        downloadDocument: async (visitaId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'visitaId' is not null or undefined
-            if (visitaId === null || visitaId === undefined) {
-                throw new RequiredError('visitaId','Required parameter visitaId was null or undefined when calling downloadDocument.');
-            }
-            const localVarPath = `/api/visita-medica/visite/{visitaId}/certificato`
-                .replace(`{${"visitaId"}}`, encodeURIComponent(String(visitaId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+      return {
+        url:
+          localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {number} visitaId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    downloadDocument: async (
+      visitaId: number,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'visitaId' is not null or undefined
+      if (visitaId === null || visitaId === undefined) {
+        throw new RequiredError(
+          "visitaId",
+          "Required parameter visitaId was null or undefined when calling downloadDocument.",
+        );
+      }
+      const localVarPath =
+        `/api/visita-medica/visite/{visitaId}/certificato`.replace(
+          `{${"visitaId"}}`,
+          encodeURIComponent(String(visitaId)),
+        );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions: AxiosRequestConfig = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+      const query = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        query.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.params) {
+        query.set(key, options.params[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(query).toString();
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
 
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {VisitaMedicaCriteria} criteria 
-         * @param {Pageable} page 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        findAll: async (criteria: VisitaMedicaCriteria, page: Pageable, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'criteria' is not null or undefined
-            if (criteria === null || criteria === undefined) {
-                throw new RequiredError('criteria','Required parameter criteria was null or undefined when calling findAll.');
-            }
-            // verify required parameter 'page' is not null or undefined
-            if (page === null || page === undefined) {
-                throw new RequiredError('page','Required parameter page was null or undefined when calling findAll.');
-            }
-            const localVarPath = `/api/visita-medica`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+      return {
+        url:
+          localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {VisitaMedicaCriteria} criteria
+     * @param {Pageable} page
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    findAll: async (
+      criteria: VisitaMedicaCriteria,
+      page: Pageable,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'criteria' is not null or undefined
+      if (criteria === null || criteria === undefined) {
+        throw new RequiredError(
+          "criteria",
+          "Required parameter criteria was null or undefined when calling findAll.",
+        );
+      }
+      // verify required parameter 'page' is not null or undefined
+      if (page === null || page === undefined) {
+        throw new RequiredError(
+          "page",
+          "Required parameter page was null or undefined when calling findAll.",
+        );
+      }
+      const localVarPath = `/api/visita-medica`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions: AxiosRequestConfig = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = flatten({
+        ...criteria,
+        ...page,
+      }) as any;
 
-            if (criteria !== undefined) {
-                localVarQueryParameter['criteria'] = criteria;
-            }
+      // if (criteria !== undefined) {
+      //     localVarQueryParameter['criteria'] = criteria;
+      // }
 
-            if (page !== undefined) {
-                localVarQueryParameter['page'] = page;
-            }
+      // if (page !== undefined) {
+      //     localVarQueryParameter['page'] = page;
+      // }
 
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+      const query = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        query.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.params) {
+        query.set(key, options.params[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(query).toString();
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
 
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {VisitaMedicaCriteria} criteria 
-         * @param {Pageable} page 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        findAllCalendario: async (criteria: VisitaMedicaCriteria, page: Pageable, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'criteria' is not null or undefined
-            if (criteria === null || criteria === undefined) {
-                throw new RequiredError('criteria','Required parameter criteria was null or undefined when calling findAllCalendario.');
-            }
-            // verify required parameter 'page' is not null or undefined
-            if (page === null || page === undefined) {
-                throw new RequiredError('page','Required parameter page was null or undefined when calling findAllCalendario.');
-            }
-            const localVarPath = `/api/visita-medica/calendario`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+      return {
+        url:
+          localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {VisitaMedicaCriteria} criteria
+     * @param {Pageable} page
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    findAllCalendario: async (
+      criteria: VisitaMedicaCriteria,
+      page: Pageable,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'criteria' is not null or undefined
+      if (criteria === null || criteria === undefined) {
+        throw new RequiredError(
+          "criteria",
+          "Required parameter criteria was null or undefined when calling findAllCalendario.",
+        );
+      }
+      // verify required parameter 'page' is not null or undefined
+      if (page === null || page === undefined) {
+        throw new RequiredError(
+          "page",
+          "Required parameter page was null or undefined when calling findAllCalendario.",
+        );
+      }
+      const localVarPath = `/api/visita-medica/calendario`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions: AxiosRequestConfig = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
-            if (criteria !== undefined) {
-                localVarQueryParameter['criteria'] = criteria;
-            }
+      if (criteria !== undefined) {
+        localVarQueryParameter["criteria"] = criteria;
+      }
 
-            if (page !== undefined) {
-                localVarQueryParameter['page'] = page;
-            }
+      if (page !== undefined) {
+        localVarQueryParameter["page"] = page;
+      }
 
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+      const query = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        query.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.params) {
+        query.set(key, options.params[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(query).toString();
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
 
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {UpdateVisitaMedicaDTO} body 
-         * @param {number} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        update: async (body: UpdateVisitaMedicaDTO, id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling update.');
-            }
-            // verify required parameter 'id' is not null or undefined
-            if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling update.');
-            }
-            const localVarPath = `/api/visita-medica/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+      return {
+        url:
+          localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {UpdateVisitaMedicaDTO} body
+     * @param {number} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    update: async (
+      body: UpdateVisitaMedicaDTO,
+      id: number,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'body' is not null or undefined
+      if (body === null || body === undefined) {
+        throw new RequiredError(
+          "body",
+          "Required parameter body was null or undefined when calling update.",
+        );
+      }
+      // verify required parameter 'id' is not null or undefined
+      if (id === null || id === undefined) {
+        throw new RequiredError(
+          "id",
+          "Required parameter id was null or undefined when calling update.",
+        );
+      }
+      const localVarPath = `/api/visita-medica/{id}`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions: AxiosRequestConfig = {
+        method: "PUT",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
-            localVarHeaderParameter['Content-Type'] = 'application/json';
+      localVarHeaderParameter["Content-Type"] = "application/json";
 
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers?.['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+      const query = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        query.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.params) {
+        query.set(key, options.params[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(query).toString();
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      const needsSerialization =
+        typeof body !== "string" ||
+        localVarRequestOptions.headers?.["Content-Type"] === "application/json";
+      localVarRequestOptions.data = needsSerialization
+        ? JSON.stringify(body !== undefined ? body : {})
+        : body || "";
 
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {boolean} idoneo 
-         * @param {string} rinnovoScadenzaIdoneita 
-         * @param {string} prescrizione 
-         * @param {number} visitaId 
-         * @param {VisitaIdCertificatoBody} [body] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        uploadCertificato: async (idoneo: boolean, rinnovoScadenzaIdoneita: string, prescrizione: string, visitaId: number, body?: VisitaIdCertificatoBody, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'idoneo' is not null or undefined
-            if (idoneo === null || idoneo === undefined) {
-                throw new RequiredError('idoneo','Required parameter idoneo was null or undefined when calling uploadCertificato.');
-            }
-            // verify required parameter 'rinnovoScadenzaIdoneita' is not null or undefined
-            if (rinnovoScadenzaIdoneita === null || rinnovoScadenzaIdoneita === undefined) {
-                throw new RequiredError('rinnovoScadenzaIdoneita','Required parameter rinnovoScadenzaIdoneita was null or undefined when calling uploadCertificato.');
-            }
-            // verify required parameter 'prescrizione' is not null or undefined
-            if (prescrizione === null || prescrizione === undefined) {
-                throw new RequiredError('prescrizione','Required parameter prescrizione was null or undefined when calling uploadCertificato.');
-            }
-            // verify required parameter 'visitaId' is not null or undefined
-            if (visitaId === null || visitaId === undefined) {
-                throw new RequiredError('visitaId','Required parameter visitaId was null or undefined when calling uploadCertificato.');
-            }
-            const localVarPath = `/api/visita-medica/visite/{visitaId}/certificato`
-                .replace(`{${"visitaId"}}`, encodeURIComponent(String(visitaId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+      return {
+        url:
+          localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {boolean} idoneo
+     * @param {string} rinnovoScadenzaIdoneita
+     * @param {string} prescrizione
+     * @param {number} visitaId
+     * @param {VisitaIdCertificatoBody} [body]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    uploadCertificato: async (
+      idoneo: boolean,
+      rinnovoScadenzaIdoneita: string,
+      prescrizione: string,
+      visitaId: number,
+      body?: VisitaIdCertificatoBody,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'idoneo' is not null or undefined
+      if (idoneo === null || idoneo === undefined) {
+        throw new RequiredError(
+          "idoneo",
+          "Required parameter idoneo was null or undefined when calling uploadCertificato.",
+        );
+      }
+      // verify required parameter 'rinnovoScadenzaIdoneita' is not null or undefined
+      if (
+        rinnovoScadenzaIdoneita === null ||
+        rinnovoScadenzaIdoneita === undefined
+      ) {
+        throw new RequiredError(
+          "rinnovoScadenzaIdoneita",
+          "Required parameter rinnovoScadenzaIdoneita was null or undefined when calling uploadCertificato.",
+        );
+      }
+      // verify required parameter 'prescrizione' is not null or undefined
+      if (prescrizione === null || prescrizione === undefined) {
+        throw new RequiredError(
+          "prescrizione",
+          "Required parameter prescrizione was null or undefined when calling uploadCertificato.",
+        );
+      }
+      // verify required parameter 'visitaId' is not null or undefined
+      if (visitaId === null || visitaId === undefined) {
+        throw new RequiredError(
+          "visitaId",
+          "Required parameter visitaId was null or undefined when calling uploadCertificato.",
+        );
+      }
+      const localVarPath =
+        `/api/visita-medica/visite/{visitaId}/certificato`.replace(
+          `{${"visitaId"}}`,
+          encodeURIComponent(String(visitaId)),
+        );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions: AxiosRequestConfig = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
-            if (idoneo !== undefined) {
-                localVarQueryParameter['idoneo'] = idoneo;
-            }
+      if (idoneo !== undefined) {
+        localVarQueryParameter["idoneo"] = idoneo;
+      }
 
-            if (rinnovoScadenzaIdoneita !== undefined) {
-                localVarQueryParameter['rinnovoScadenzaIdoneita'] = (rinnovoScadenzaIdoneita as any instanceof Date) ?
-                    (rinnovoScadenzaIdoneita as any).toISOString().substr(0,10) :
-                    rinnovoScadenzaIdoneita;
-            }
+      if (rinnovoScadenzaIdoneita !== undefined) {
+        localVarQueryParameter["rinnovoScadenzaIdoneita"] =
+          (rinnovoScadenzaIdoneita as any) instanceof Date
+            ? (rinnovoScadenzaIdoneita as any).toISOString().substr(0, 10)
+            : rinnovoScadenzaIdoneita;
+      }
 
-            if (prescrizione !== undefined) {
-                localVarQueryParameter['prescrizione'] = prescrizione;
-            }
+      if (prescrizione !== undefined) {
+        localVarQueryParameter["prescrizione"] = prescrizione;
+      }
 
-            localVarHeaderParameter['Content-Type'] = 'application/json';
+      localVarHeaderParameter["Content-Type"] = "application/json";
 
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers?.['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+      const query = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        query.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.params) {
+        query.set(key, options.params[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(query).toString();
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      const needsSerialization =
+        typeof body !== "string" ||
+        localVarRequestOptions.headers?.["Content-Type"] === "application/json";
+      localVarRequestOptions.data = needsSerialization
+        ? JSON.stringify(body !== undefined ? body : {})
+        : body || "";
 
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-    }
+      return {
+        url:
+          localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+  };
 };
 
 /**
  * VisitaMedicaControllerApi - functional programming interface
  * @export
  */
-export const VisitaMedicaControllerApiFp = function(configuration?: Configuration) {
-    return {
-        /**
-         * 
-         * @param {UpdateVisitaMedicaDTO} body 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async createVisitaMedica(body: UpdateVisitaMedicaDTO, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<VisitaMedicaDTO>>> {
-            const localVarAxiosArgs = await VisitaMedicaControllerApiAxiosParamCreator(configuration).createVisitaMedica(body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @param {number} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async deleteById(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await VisitaMedicaControllerApiAxiosParamCreator(configuration).deleteById(id, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @param {number} visitaId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async deleteCertificati(visitaId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<string>>> {
-            const localVarAxiosArgs = await VisitaMedicaControllerApiAxiosParamCreator(configuration).deleteCertificati(visitaId, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @param {number} visitaId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async downloadDocument(visitaId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Blob>>> {
-            const localVarAxiosArgs = await VisitaMedicaControllerApiAxiosParamCreator(configuration).downloadDocument(visitaId, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @param {VisitaMedicaCriteria} criteria 
-         * @param {Pageable} page 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async findAll(criteria: VisitaMedicaCriteria, page: Pageable, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<PageVisitaMedicaDTO>>> {
-            const localVarAxiosArgs = await VisitaMedicaControllerApiAxiosParamCreator(configuration).findAll(criteria, page, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @param {VisitaMedicaCriteria} criteria 
-         * @param {Pageable} page 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async findAllCalendario(criteria: VisitaMedicaCriteria, page: Pageable, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<PageVisitaMedicaCaledarioDTO>>> {
-            const localVarAxiosArgs = await VisitaMedicaControllerApiAxiosParamCreator(configuration).findAllCalendario(criteria, page, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @param {UpdateVisitaMedicaDTO} body 
-         * @param {number} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async update(body: UpdateVisitaMedicaDTO, id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<VisitaMedicaDTO>>> {
-            const localVarAxiosArgs = await VisitaMedicaControllerApiAxiosParamCreator(configuration).update(body, id, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @param {boolean} idoneo 
-         * @param {string} rinnovoScadenzaIdoneita 
-         * @param {string} prescrizione 
-         * @param {number} visitaId 
-         * @param {VisitaIdCertificatoBody} [body] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async uploadCertificato(idoneo: boolean, rinnovoScadenzaIdoneita: string, prescrizione: string, visitaId: number, body?: VisitaIdCertificatoBody, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<VisitaMedicaCertificatoDTO>>> {
-            const localVarAxiosArgs = await VisitaMedicaControllerApiAxiosParamCreator(configuration).uploadCertificato(idoneo, rinnovoScadenzaIdoneita, prescrizione, visitaId, body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-    }
+export const VisitaMedicaControllerApiFp = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     *
+     * @param {UpdateVisitaMedicaDTO} body
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createVisitaMedica(
+      body: UpdateVisitaMedicaDTO,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => Promise<AxiosResponse<VisitaMedicaDTO>>
+    > {
+      const localVarAxiosArgs =
+        await VisitaMedicaControllerApiAxiosParamCreator(
+          configuration,
+        ).createVisitaMedica(body, options);
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH,
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     *
+     * @param {number} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async deleteById(
+      id: number,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>
+    > {
+      const localVarAxiosArgs =
+        await VisitaMedicaControllerApiAxiosParamCreator(
+          configuration,
+        ).deleteById(id, options);
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH,
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     *
+     * @param {number} visitaId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async deleteCertificati(
+      visitaId: number,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => Promise<AxiosResponse<string>>
+    > {
+      const localVarAxiosArgs =
+        await VisitaMedicaControllerApiAxiosParamCreator(
+          configuration,
+        ).deleteCertificati(visitaId, options);
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH,
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     *
+     * @param {number} visitaId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async downloadDocument(
+      visitaId: number,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Blob>>
+    > {
+      const localVarAxiosArgs =
+        await VisitaMedicaControllerApiAxiosParamCreator(
+          configuration,
+        ).downloadDocument(visitaId, options);
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH,
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     *
+     * @param {VisitaMedicaCriteria} criteria
+     * @param {Pageable} page
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async findAll(
+      criteria: VisitaMedicaCriteria,
+      page: Pageable,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => Promise<AxiosResponse<PageVisitaMedicaDTO>>
+    > {
+      const localVarAxiosArgs =
+        await VisitaMedicaControllerApiAxiosParamCreator(configuration).findAll(
+          criteria,
+          page,
+          options,
+        );
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH,
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     *
+     * @param {VisitaMedicaCriteria} criteria
+     * @param {Pageable} page
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async findAllCalendario(
+      criteria: VisitaMedicaCriteria,
+      page: Pageable,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => Promise<AxiosResponse<PageVisitaMedicaCaledarioDTO>>
+    > {
+      const localVarAxiosArgs =
+        await VisitaMedicaControllerApiAxiosParamCreator(
+          configuration,
+        ).findAllCalendario(criteria, page, options);
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH,
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     *
+     * @param {UpdateVisitaMedicaDTO} body
+     * @param {number} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async update(
+      body: UpdateVisitaMedicaDTO,
+      id: number,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => Promise<AxiosResponse<VisitaMedicaDTO>>
+    > {
+      const localVarAxiosArgs =
+        await VisitaMedicaControllerApiAxiosParamCreator(configuration).update(
+          body,
+          id,
+          options,
+        );
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH,
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     *
+     * @param {boolean} idoneo
+     * @param {string} rinnovoScadenzaIdoneita
+     * @param {string} prescrizione
+     * @param {number} visitaId
+     * @param {VisitaIdCertificatoBody} [body]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async uploadCertificato(
+      idoneo: boolean,
+      rinnovoScadenzaIdoneita: string,
+      prescrizione: string,
+      visitaId: number,
+      body?: VisitaIdCertificatoBody,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => Promise<AxiosResponse<VisitaMedicaCertificatoDTO>>
+    > {
+      const localVarAxiosArgs =
+        await VisitaMedicaControllerApiAxiosParamCreator(
+          configuration,
+        ).uploadCertificato(
+          idoneo,
+          rinnovoScadenzaIdoneita,
+          prescrizione,
+          visitaId,
+          body,
+          options,
+        );
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH,
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+  };
 };
 
 /**
  * VisitaMedicaControllerApi - factory interface
  * @export
  */
-export const VisitaMedicaControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    return {
-        /**
-         * 
-         * @param {UpdateVisitaMedicaDTO} body 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async createVisitaMedica(body: UpdateVisitaMedicaDTO, options?: AxiosRequestConfig): Promise<AxiosResponse<VisitaMedicaDTO>> {
-            return VisitaMedicaControllerApiFp(configuration).createVisitaMedica(body, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {number} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async deleteById(id: number, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return VisitaMedicaControllerApiFp(configuration).deleteById(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {number} visitaId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async deleteCertificati(visitaId: number, options?: AxiosRequestConfig): Promise<AxiosResponse<string>> {
-            return VisitaMedicaControllerApiFp(configuration).deleteCertificati(visitaId, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {number} visitaId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async downloadDocument(visitaId: number, options?: AxiosRequestConfig): Promise<AxiosResponse<Blob>> {
-            return VisitaMedicaControllerApiFp(configuration).downloadDocument(visitaId, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {VisitaMedicaCriteria} criteria 
-         * @param {Pageable} page 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async findAll(criteria: VisitaMedicaCriteria, page: Pageable, options?: AxiosRequestConfig): Promise<AxiosResponse<PageVisitaMedicaDTO>> {
-            return VisitaMedicaControllerApiFp(configuration).findAll(criteria, page, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {VisitaMedicaCriteria} criteria 
-         * @param {Pageable} page 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async findAllCalendario(criteria: VisitaMedicaCriteria, page: Pageable, options?: AxiosRequestConfig): Promise<AxiosResponse<PageVisitaMedicaCaledarioDTO>> {
-            return VisitaMedicaControllerApiFp(configuration).findAllCalendario(criteria, page, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {UpdateVisitaMedicaDTO} body 
-         * @param {number} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async update(body: UpdateVisitaMedicaDTO, id: number, options?: AxiosRequestConfig): Promise<AxiosResponse<VisitaMedicaDTO>> {
-            return VisitaMedicaControllerApiFp(configuration).update(body, id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {boolean} idoneo 
-         * @param {string} rinnovoScadenzaIdoneita 
-         * @param {string} prescrizione 
-         * @param {number} visitaId 
-         * @param {VisitaIdCertificatoBody} [body] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async uploadCertificato(idoneo: boolean, rinnovoScadenzaIdoneita: string, prescrizione: string, visitaId: number, body?: VisitaIdCertificatoBody, options?: AxiosRequestConfig): Promise<AxiosResponse<VisitaMedicaCertificatoDTO>> {
-            return VisitaMedicaControllerApiFp(configuration).uploadCertificato(idoneo, rinnovoScadenzaIdoneita, prescrizione, visitaId, body, options).then((request) => request(axios, basePath));
-        },
-    };
+export const VisitaMedicaControllerApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  return {
+    /**
+     *
+     * @param {UpdateVisitaMedicaDTO} body
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createVisitaMedica(
+      body: UpdateVisitaMedicaDTO,
+      options?: AxiosRequestConfig,
+    ): Promise<AxiosResponse<VisitaMedicaDTO>> {
+      return VisitaMedicaControllerApiFp(configuration)
+        .createVisitaMedica(body, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {number} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async deleteById(
+      id: number,
+      options?: AxiosRequestConfig,
+    ): Promise<AxiosResponse<void>> {
+      return VisitaMedicaControllerApiFp(configuration)
+        .deleteById(id, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {number} visitaId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async deleteCertificati(
+      visitaId: number,
+      options?: AxiosRequestConfig,
+    ): Promise<AxiosResponse<string>> {
+      return VisitaMedicaControllerApiFp(configuration)
+        .deleteCertificati(visitaId, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {number} visitaId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async downloadDocument(
+      visitaId: number,
+      options?: AxiosRequestConfig,
+    ): Promise<AxiosResponse<Blob>> {
+      return VisitaMedicaControllerApiFp(configuration)
+        .downloadDocument(visitaId, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {VisitaMedicaCriteria} criteria
+     * @param {Pageable} page
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async findAll(
+      criteria: VisitaMedicaCriteria,
+      page: Pageable,
+      options?: AxiosRequestConfig,
+    ): Promise<AxiosResponse<PageVisitaMedicaDTO>> {
+      return VisitaMedicaControllerApiFp(configuration)
+        .findAll(criteria, page, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {VisitaMedicaCriteria} criteria
+     * @param {Pageable} page
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async findAllCalendario(
+      criteria: VisitaMedicaCriteria,
+      page: Pageable,
+      options?: AxiosRequestConfig,
+    ): Promise<AxiosResponse<PageVisitaMedicaCaledarioDTO>> {
+      return VisitaMedicaControllerApiFp(configuration)
+        .findAllCalendario(criteria, page, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {UpdateVisitaMedicaDTO} body
+     * @param {number} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async update(
+      body: UpdateVisitaMedicaDTO,
+      id: number,
+      options?: AxiosRequestConfig,
+    ): Promise<AxiosResponse<VisitaMedicaDTO>> {
+      return VisitaMedicaControllerApiFp(configuration)
+        .update(body, id, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {boolean} idoneo
+     * @param {string} rinnovoScadenzaIdoneita
+     * @param {string} prescrizione
+     * @param {number} visitaId
+     * @param {VisitaIdCertificatoBody} [body]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async uploadCertificato(
+      idoneo: boolean,
+      rinnovoScadenzaIdoneita: string,
+      prescrizione: string,
+      visitaId: number,
+      body?: VisitaIdCertificatoBody,
+      options?: AxiosRequestConfig,
+    ): Promise<AxiosResponse<VisitaMedicaCertificatoDTO>> {
+      return VisitaMedicaControllerApiFp(configuration)
+        .uploadCertificato(
+          idoneo,
+          rinnovoScadenzaIdoneita,
+          prescrizione,
+          visitaId,
+          body,
+          options,
+        )
+        .then((request) => request(axios, basePath));
+    },
+  };
 };
 
 /**
@@ -631,91 +1032,145 @@ export const VisitaMedicaControllerApiFactory = function (configuration?: Config
  * @extends {BaseAPI}
  */
 export class VisitaMedicaControllerApi extends BaseAPI {
-    /**
-     * 
-     * @param {UpdateVisitaMedicaDTO} body 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof VisitaMedicaControllerApi
-     */
-    public async createVisitaMedica(body: UpdateVisitaMedicaDTO, options?: AxiosRequestConfig) : Promise<AxiosResponse<VisitaMedicaDTO>> {
-        return VisitaMedicaControllerApiFp(this.configuration).createVisitaMedica(body, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @param {number} id 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof VisitaMedicaControllerApi
-     */
-    public async deleteById(id: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return VisitaMedicaControllerApiFp(this.configuration).deleteById(id, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @param {number} visitaId 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof VisitaMedicaControllerApi
-     */
-    public async deleteCertificati(visitaId: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<string>> {
-        return VisitaMedicaControllerApiFp(this.configuration).deleteCertificati(visitaId, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @param {number} visitaId 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof VisitaMedicaControllerApi
-     */
-    public async downloadDocument(visitaId: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<Blob>> {
-        return VisitaMedicaControllerApiFp(this.configuration).downloadDocument(visitaId, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @param {VisitaMedicaCriteria} criteria 
-     * @param {Pageable} page 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof VisitaMedicaControllerApi
-     */
-    public async findAll(criteria: VisitaMedicaCriteria, page: Pageable, options?: AxiosRequestConfig) : Promise<AxiosResponse<PageVisitaMedicaDTO>> {
-        return VisitaMedicaControllerApiFp(this.configuration).findAll(criteria, page, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @param {VisitaMedicaCriteria} criteria 
-     * @param {Pageable} page 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof VisitaMedicaControllerApi
-     */
-    public async findAllCalendario(criteria: VisitaMedicaCriteria, page: Pageable, options?: AxiosRequestConfig) : Promise<AxiosResponse<PageVisitaMedicaCaledarioDTO>> {
-        return VisitaMedicaControllerApiFp(this.configuration).findAllCalendario(criteria, page, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @param {UpdateVisitaMedicaDTO} body 
-     * @param {number} id 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof VisitaMedicaControllerApi
-     */
-    public async update(body: UpdateVisitaMedicaDTO, id: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<VisitaMedicaDTO>> {
-        return VisitaMedicaControllerApiFp(this.configuration).update(body, id, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @param {boolean} idoneo 
-     * @param {string} rinnovoScadenzaIdoneita 
-     * @param {string} prescrizione 
-     * @param {number} visitaId 
-     * @param {VisitaIdCertificatoBody} [body] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof VisitaMedicaControllerApi
-     */
-    public async uploadCertificato(idoneo: boolean, rinnovoScadenzaIdoneita: string, prescrizione: string, visitaId: number, body?: VisitaIdCertificatoBody, options?: AxiosRequestConfig) : Promise<AxiosResponse<VisitaMedicaCertificatoDTO>> {
-        return VisitaMedicaControllerApiFp(this.configuration).uploadCertificato(idoneo, rinnovoScadenzaIdoneita, prescrizione, visitaId, body, options).then((request) => request(this.axios, this.basePath));
-    }
+  /**
+   *
+   * @param {UpdateVisitaMedicaDTO} body
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof VisitaMedicaControllerApi
+   */
+  public async createVisitaMedica(
+    body: UpdateVisitaMedicaDTO,
+    options?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<VisitaMedicaDTO>> {
+    return VisitaMedicaControllerApiFp(this.configuration)
+      .createVisitaMedica(body, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+  /**
+   *
+   * @param {number} id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof VisitaMedicaControllerApi
+   */
+  public async deleteById(
+    id: number,
+    options?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<void>> {
+    return VisitaMedicaControllerApiFp(this.configuration)
+      .deleteById(id, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+  /**
+   *
+   * @param {number} visitaId
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof VisitaMedicaControllerApi
+   */
+  public async deleteCertificati(
+    visitaId: number,
+    options?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<string>> {
+    return VisitaMedicaControllerApiFp(this.configuration)
+      .deleteCertificati(visitaId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+  /**
+   *
+   * @param {number} visitaId
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof VisitaMedicaControllerApi
+   */
+  public async downloadDocument(
+    visitaId: number,
+    options?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<Blob>> {
+    return VisitaMedicaControllerApiFp(this.configuration)
+      .downloadDocument(visitaId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+  /**
+   *
+   * @param {VisitaMedicaCriteria} criteria
+   * @param {Pageable} page
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof VisitaMedicaControllerApi
+   */
+  public async findAll(
+    criteria: VisitaMedicaCriteria,
+    page: Pageable,
+    options?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<PageVisitaMedicaDTO>> {
+    return VisitaMedicaControllerApiFp(this.configuration)
+      .findAll(criteria, page, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+  /**
+   *
+   * @param {VisitaMedicaCriteria} criteria
+   * @param {Pageable} page
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof VisitaMedicaControllerApi
+   */
+  public async findAllCalendario(
+    criteria: VisitaMedicaCriteria,
+    page: Pageable,
+    options?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<PageVisitaMedicaCaledarioDTO>> {
+    return VisitaMedicaControllerApiFp(this.configuration)
+      .findAllCalendario(criteria, page, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+  /**
+   *
+   * @param {UpdateVisitaMedicaDTO} body
+   * @param {number} id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof VisitaMedicaControllerApi
+   */
+  public async update(
+    body: UpdateVisitaMedicaDTO,
+    id: number,
+    options?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<VisitaMedicaDTO>> {
+    return VisitaMedicaControllerApiFp(this.configuration)
+      .update(body, id, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+  /**
+   *
+   * @param {boolean} idoneo
+   * @param {string} rinnovoScadenzaIdoneita
+   * @param {string} prescrizione
+   * @param {number} visitaId
+   * @param {VisitaIdCertificatoBody} [body]
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof VisitaMedicaControllerApi
+   */
+  public async uploadCertificato(
+    idoneo: boolean,
+    rinnovoScadenzaIdoneita: string,
+    prescrizione: string,
+    visitaId: number,
+    body?: VisitaIdCertificatoBody,
+    options?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<VisitaMedicaCertificatoDTO>> {
+    return VisitaMedicaControllerApiFp(this.configuration)
+      .uploadCertificato(
+        idoneo,
+        rinnovoScadenzaIdoneita,
+        prescrizione,
+        visitaId,
+        body,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath));
+  }
 }

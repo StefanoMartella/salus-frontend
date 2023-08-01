@@ -5,6 +5,7 @@ import TodayEvents from "../../components/shared/TodayEvents";
 import TodaySection from "../../components/shared/TodaySection";
 import MedicalDayTable from "../../components/table/MedicalDayTable";
 
+//componente innestato alla prima pagina: localhost:3000/dashboard
 function DashboardPage() {
   return (
     <Grid container>

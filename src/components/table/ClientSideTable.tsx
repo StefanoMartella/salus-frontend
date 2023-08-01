@@ -1,8 +1,8 @@
-import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
 import { DataGrid, DataGridProps, GridPaginationModel } from "@mui/x-data-grid";
 import { useState } from "react";
-import Typography from "@mui/material/Typography";
 
 const DEFAULT_PAGE = 0;
 const DEFAULT_PAGE_SIZE = 5;

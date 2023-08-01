@@ -34,7 +34,7 @@ type CardInfoProps = {
   children: ReactNode;
 };
 
-function CardInfo({ title, children }: CardInfoProps) {
+export function CardInfo({ title, children }: CardInfoProps) {
   const theme = useTheme();
 
   return (
