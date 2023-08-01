@@ -1,3 +1,10 @@
+import EventIcon from "@mui/icons-material/Event";
+import Timeline from "@mui/lab/Timeline";
+import TimelineConnector from "@mui/lab/TimelineConnector";
+import TimelineContent from "@mui/lab/TimelineContent";
+import TimelineDot from "@mui/lab/TimelineDot";
+import TimelineItem from "@mui/lab/TimelineItem";
+import TimelineSeparator from "@mui/lab/TimelineSeparator";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
@@ -7,6 +14,7 @@ import Grid from "@mui/material/Grid";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
+import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 import { useQueries } from "@tanstack/react-query";
 import { AxiosResponse } from "axios";
@@ -28,6 +36,7 @@ type CardInfoProps = {
 
 export function CardInfo({ title, children }: CardInfoProps) {
   const theme = useTheme();
+
   return (
     <Card>
       <CardHeader
@@ -36,9 +45,7 @@ export function CardInfo({ title, children }: CardInfoProps) {
           color: "white",
           fontSize: theme.typography.h6.fontSize,
         }}
-        style={{
-          backgroundColor: theme.palette.primary.light,
-        }}
+        style={{ background: theme.palette.primary.light }}
       />
       <CardContent>{children}</CardContent>
     </Card>
@@ -76,12 +83,10 @@ function ContactDetailsPage() {
         select: (response: AxiosResponse<DipendenteDTO>) => response.data,
       },
       {
-        queryKey: ["contacts-events", id],
+        queryKey: ["contact-events", id],
         queryFn: () =>
           new EventoControllerApi().findAll4(
-            {
-              idDipendente: id as unknown as number,
-            },
+            { idDipendente: id as unknown as number },
             { page: 0, size: 6 },
           ),
         select: (response: AxiosResponse<PageEventoDTO>) => response.data,
@@ -124,18 +129,16 @@ function ContactDetailsPage() {
         </CardInfo>
       </Grid>
       <Grid item xs={4}>
-        <CardInfo title="Informazioni contrattuali">
-          <List>
-            <CustomListItem
-              title="Data assunzione"
-              subTitle={contact?.dataAssunzioneDipendente ?? ""}
-              withDivider
-            />
-            <CustomListItem
-              title="Data primo contratto"
-              subTitle={contact?.dataPrimoContratto ?? ""}
-            />
-          </List>
+        <CardInfo title="Infomazioni contrattuali">
+          <CustomListItem
+            title="Data assunzione"
+            subTitle={contact?.dataAssunzioneDipendente ?? ""}
+            withDivider
+          />
+          <CustomListItem
+            title="Data primo contratto"
+            subTitle={contact?.dataPrimoContratto ?? ""}
+          />
         </CardInfo>
       </Grid>
       <Grid item xs={4}>
@@ -143,15 +146,41 @@ function ContactDetailsPage() {
           <CircularProgress />
         ) : (
           <CardInfo title="Ultime attività">
-            {events?.content?.map((e) => (
+            {/* {events?.content?.map((e) => (
               <CustomListItem
                 key={e.id}
-                title={getLabelForEventType(e.tipologiaEvento)}
+                title={e.tipologiaEvento ?? ""}
                 subTitle={
                   e.timestamp ? getFormattedDate(new Date(e.timestamp)) : ""
                 }
               />
-            ))}
+            ))} */}
+            {events?.content?.length ? (
+              <Timeline position="alternate">
+                {events?.content?.map((e) => (
+                  <TimelineItem key={e.id}>
+                    <TimelineSeparator>
+                      <TimelineDot color="warning">
+                        <EventIcon />
+                      </TimelineDot>
+                      <TimelineConnector />
+                    </TimelineSeparator>
+                    <TimelineContent>
+                      <Typography variant="body1">
+                        {getLabelForEventType(e.tipologiaEvento)}
+                      </Typography>
+                      <Typography variant="body2">
+                        {e.timestamp
+                          ? getFormattedDate(new Date(e.timestamp))
+                          : ""}
+                      </Typography>
+                    </TimelineContent>
+                  </TimelineItem>
+                ))}
+              </Timeline>
+            ) : (
+              <Typography>Nessun evento recente</Typography>
+            )}
           </CardInfo>
         )}
       </Grid>

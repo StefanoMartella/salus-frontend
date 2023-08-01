@@ -1,11 +1,15 @@
+import Avatar from "@mui/material/Avatar";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import { deepOrange } from "@mui/material/colors";
 import {
   GridColDef,
   GridRowParams,
   GridValueGetterParams,
 } from "@mui/x-data-grid";
+import { useNavigate } from "react-router-dom";
 import { DipendenteControllerApi, DipendenteDTO } from "../../api";
 import ServerSideTable from "./ServerSideTable";
-import { useNavigate } from "react-router-dom";
 
 const columns: GridColDef<DipendenteDTO>[] = [
   { field: "id", headerName: "ID" },
@@ -13,8 +17,24 @@ const columns: GridColDef<DipendenteDTO>[] = [
     field: "name",
     headerName: "Nome",
     flex: 1,
-    valueGetter: (param: GridValueGetterParams<DipendenteDTO>) =>
-      `${param.row.nome} ${param.row.cognome}`,
+    renderCell: (value) => (
+      <Grid container direction="row" gap={1} alignItems="center">
+        <Avatar
+          style={{
+            color: "white",
+            backgroundColor: deepOrange[400],
+            width: 33,
+            height: 33,
+          }}
+        >
+          <Typography variant="body2">
+            {value.row.nome?.charAt(0)}
+            {value.row.cognome?.charAt(0)}
+          </Typography>
+        </Avatar>
+        {value.row.nome} {value.row.cognome}
+      </Grid>
+    ),
   },
   {
     field: "fiscalCode",
