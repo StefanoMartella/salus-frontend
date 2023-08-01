@@ -11,375 +11,605 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import globalAxios, { AxiosResponse, AxiosInstance, AxiosRequestConfig } from 'axios';
-import { Configuration } from '../configuration';
+import globalAxios, {
+  AxiosResponse,
+  AxiosInstance,
+  AxiosRequestConfig,
+} from "axios";
+import { Configuration } from "../configuration";
 // Some imports not used depending on template conditions
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
-import { ContrattoCriteria } from '../models';
-import { ContrattoDTO } from '../models';
-import { ErrorMessage } from '../models';
-import { PageContrattoDTO } from '../models';
-import { Pageable } from '../models';
-import { UpdateContrattoDTO } from '../models';
+import {
+  BASE_PATH,
+  COLLECTION_FORMATS,
+  RequestArgs,
+  BaseAPI,
+  RequiredError,
+} from "../base";
+import { ContrattoCriteria } from "../models";
+import { ContrattoDTO } from "../models";
+import { ErrorMessage } from "../models";
+import { PageContrattoDTO } from "../models";
+import { Pageable } from "../models";
+import { UpdateContrattoDTO } from "../models";
+import { flatten } from "flat";
 /**
  * ContrattoControllerApi - axios parameter creator
  * @export
  */
-export const ContrattoControllerApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * 
-         * @param {UpdateContrattoDTO} body 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        create3: async (body: UpdateContrattoDTO, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling create3.');
-            }
-            const localVarPath = `/api/contratto/`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+export const ContrattoControllerApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     *
+     * @param {UpdateContrattoDTO} body
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    create3: async (
+      body: UpdateContrattoDTO,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'body' is not null or undefined
+      if (body === null || body === undefined) {
+        throw new RequiredError(
+          "body",
+          "Required parameter body was null or undefined when calling create3.",
+        );
+      }
+      const localVarPath = `/api/contratto/`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions: AxiosRequestConfig = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
-            localVarHeaderParameter['Content-Type'] = 'application/json';
+      localVarHeaderParameter["Content-Type"] = "application/json";
 
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers?.['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+      const query = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        query.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.params) {
+        query.set(key, options.params[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(query).toString();
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      const needsSerialization =
+        typeof body !== "string" ||
+        localVarRequestOptions.headers?.["Content-Type"] === "application/json";
+      localVarRequestOptions.data = needsSerialization
+        ? JSON.stringify(body !== undefined ? body : {})
+        : body || "";
 
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {number} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        delete3: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling delete3.');
-            }
-            const localVarPath = `/api/contratto/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+      return {
+        url:
+          localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {number} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    delete3: async (
+      id: number,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      if (id === null || id === undefined) {
+        throw new RequiredError(
+          "id",
+          "Required parameter id was null or undefined when calling delete3.",
+        );
+      }
+      const localVarPath = `/api/contratto/{id}`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions: AxiosRequestConfig = {
+        method: "DELETE",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+      const query = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        query.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.params) {
+        query.set(key, options.params[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(query).toString();
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
 
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {ContrattoCriteria} criteria 
-         * @param {Pageable} pageable 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        findAll6: async (criteria: ContrattoCriteria, pageable: Pageable, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'criteria' is not null or undefined
-            if (criteria === null || criteria === undefined) {
-                throw new RequiredError('criteria','Required parameter criteria was null or undefined when calling findAll6.');
-            }
-            // verify required parameter 'pageable' is not null or undefined
-            if (pageable === null || pageable === undefined) {
-                throw new RequiredError('pageable','Required parameter pageable was null or undefined when calling findAll6.');
-            }
-            const localVarPath = `/api/contratto/`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+      return {
+        url:
+          localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {ContrattoCriteria} criteria
+     * @param {Pageable} pageable
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    findAll6: async (
+      criteria: ContrattoCriteria,
+      pageable: Pageable,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'criteria' is not null or undefined
+      if (criteria === null || criteria === undefined) {
+        throw new RequiredError(
+          "criteria",
+          "Required parameter criteria was null or undefined when calling findAll6.",
+        );
+      }
+      // verify required parameter 'pageable' is not null or undefined
+      if (pageable === null || pageable === undefined) {
+        throw new RequiredError(
+          "pageable",
+          "Required parameter pageable was null or undefined when calling findAll6.",
+        );
+      }
+      const localVarPath = `/api/contratto/`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions: AxiosRequestConfig = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = flatten({
+        ...criteria,
+        ...pageable,
+      }) as any;
 
-            if (criteria !== undefined) {
-                localVarQueryParameter['criteria'] = criteria;
-            }
+      // if (criteria !== undefined) {
+      //     localVarQueryParameter['criteria'] = criteria;
+      // }
 
-            if (pageable !== undefined) {
-                localVarQueryParameter['pageable'] = pageable;
-            }
+      // if (pageable !== undefined) {
+      //     localVarQueryParameter['pageable'] = pageable;
+      // }
 
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+      const query = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        query.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.params) {
+        query.set(key, options.params[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(query).toString();
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
 
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {number} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        findOne1: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling findOne1.');
-            }
-            const localVarPath = `/api/contratto/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+      return {
+        url:
+          localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {number} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    findOne1: async (
+      id: number,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      if (id === null || id === undefined) {
+        throw new RequiredError(
+          "id",
+          "Required parameter id was null or undefined when calling findOne1.",
+        );
+      }
+      const localVarPath = `/api/contratto/{id}`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions: AxiosRequestConfig = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+      const query = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        query.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.params) {
+        query.set(key, options.params[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(query).toString();
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
 
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {UpdateContrattoDTO} body 
-         * @param {number} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        update5: async (body: UpdateContrattoDTO, id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling update5.');
-            }
-            // verify required parameter 'id' is not null or undefined
-            if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling update5.');
-            }
-            const localVarPath = `/api/contratto/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+      return {
+        url:
+          localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {UpdateContrattoDTO} body
+     * @param {number} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    update5: async (
+      body: UpdateContrattoDTO,
+      id: number,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'body' is not null or undefined
+      if (body === null || body === undefined) {
+        throw new RequiredError(
+          "body",
+          "Required parameter body was null or undefined when calling update5.",
+        );
+      }
+      // verify required parameter 'id' is not null or undefined
+      if (id === null || id === undefined) {
+        throw new RequiredError(
+          "id",
+          "Required parameter id was null or undefined when calling update5.",
+        );
+      }
+      const localVarPath = `/api/contratto/{id}`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, "https://example.com");
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions: AxiosRequestConfig = {
+        method: "PUT",
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
-            localVarHeaderParameter['Content-Type'] = 'application/json';
+      localVarHeaderParameter["Content-Type"] = "application/json";
 
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers?.['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+      const query = new URLSearchParams(localVarUrlObj.search);
+      for (const key in localVarQueryParameter) {
+        query.set(key, localVarQueryParameter[key]);
+      }
+      for (const key in options.params) {
+        query.set(key, options.params[key]);
+      }
+      localVarUrlObj.search = new URLSearchParams(query).toString();
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      const needsSerialization =
+        typeof body !== "string" ||
+        localVarRequestOptions.headers?.["Content-Type"] === "application/json";
+      localVarRequestOptions.data = needsSerialization
+        ? JSON.stringify(body !== undefined ? body : {})
+        : body || "";
 
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-    }
+      return {
+        url:
+          localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+        options: localVarRequestOptions,
+      };
+    },
+  };
 };
 
 /**
  * ContrattoControllerApi - functional programming interface
  * @export
  */
-export const ContrattoControllerApiFp = function(configuration?: Configuration) {
-    return {
-        /**
-         * 
-         * @param {UpdateContrattoDTO} body 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async create3(body: UpdateContrattoDTO, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<ContrattoDTO>>> {
-            const localVarAxiosArgs = await ContrattoControllerApiAxiosParamCreator(configuration).create3(body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @param {number} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async delete3(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await ContrattoControllerApiAxiosParamCreator(configuration).delete3(id, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @param {ContrattoCriteria} criteria 
-         * @param {Pageable} pageable 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async findAll6(criteria: ContrattoCriteria, pageable: Pageable, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<PageContrattoDTO>>> {
-            const localVarAxiosArgs = await ContrattoControllerApiAxiosParamCreator(configuration).findAll6(criteria, pageable, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @param {number} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async findOne1(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<ContrattoDTO>>> {
-            const localVarAxiosArgs = await ContrattoControllerApiAxiosParamCreator(configuration).findOne1(id, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @param {UpdateContrattoDTO} body 
-         * @param {number} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async update5(body: UpdateContrattoDTO, id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<ContrattoDTO>>> {
-            const localVarAxiosArgs = await ContrattoControllerApiAxiosParamCreator(configuration).update5(body, id, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-    }
+export const ContrattoControllerApiFp = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     *
+     * @param {UpdateContrattoDTO} body
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async create3(
+      body: UpdateContrattoDTO,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => Promise<AxiosResponse<ContrattoDTO>>
+    > {
+      const localVarAxiosArgs = await ContrattoControllerApiAxiosParamCreator(
+        configuration,
+      ).create3(body, options);
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH,
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     *
+     * @param {number} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async delete3(
+      id: number,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>
+    > {
+      const localVarAxiosArgs = await ContrattoControllerApiAxiosParamCreator(
+        configuration,
+      ).delete3(id, options);
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH,
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     *
+     * @param {ContrattoCriteria} criteria
+     * @param {Pageable} pageable
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async findAll6(
+      criteria: ContrattoCriteria,
+      pageable: Pageable,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => Promise<AxiosResponse<PageContrattoDTO>>
+    > {
+      const localVarAxiosArgs = await ContrattoControllerApiAxiosParamCreator(
+        configuration,
+      ).findAll6(criteria, pageable, options);
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH,
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     *
+     * @param {number} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async findOne1(
+      id: number,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => Promise<AxiosResponse<ContrattoDTO>>
+    > {
+      const localVarAxiosArgs = await ContrattoControllerApiAxiosParamCreator(
+        configuration,
+      ).findOne1(id, options);
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH,
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+     *
+     * @param {UpdateContrattoDTO} body
+     * @param {number} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async update5(
+      body: UpdateContrattoDTO,
+      id: number,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => Promise<AxiosResponse<ContrattoDTO>>
+    > {
+      const localVarAxiosArgs = await ContrattoControllerApiAxiosParamCreator(
+        configuration,
+      ).update5(body, id, options);
+      return (
+        axios: AxiosInstance = globalAxios,
+        basePath: string = BASE_PATH,
+      ) => {
+        const axiosRequestArgs: AxiosRequestConfig = {
+          ...localVarAxiosArgs.options,
+          url: basePath + localVarAxiosArgs.url,
+        };
+        return axios.request(axiosRequestArgs);
+      };
+    },
+  };
 };
 
 /**
  * ContrattoControllerApi - factory interface
  * @export
  */
-export const ContrattoControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    return {
-        /**
-         * 
-         * @param {UpdateContrattoDTO} body 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async create3(body: UpdateContrattoDTO, options?: AxiosRequestConfig): Promise<AxiosResponse<ContrattoDTO>> {
-            return ContrattoControllerApiFp(configuration).create3(body, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {number} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async delete3(id: number, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return ContrattoControllerApiFp(configuration).delete3(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {ContrattoCriteria} criteria 
-         * @param {Pageable} pageable 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async findAll6(criteria: ContrattoCriteria, pageable: Pageable, options?: AxiosRequestConfig): Promise<AxiosResponse<PageContrattoDTO>> {
-            return ContrattoControllerApiFp(configuration).findAll6(criteria, pageable, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {number} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async findOne1(id: number, options?: AxiosRequestConfig): Promise<AxiosResponse<ContrattoDTO>> {
-            return ContrattoControllerApiFp(configuration).findOne1(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {UpdateContrattoDTO} body 
-         * @param {number} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async update5(body: UpdateContrattoDTO, id: number, options?: AxiosRequestConfig): Promise<AxiosResponse<ContrattoDTO>> {
-            return ContrattoControllerApiFp(configuration).update5(body, id, options).then((request) => request(axios, basePath));
-        },
-    };
+export const ContrattoControllerApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  return {
+    /**
+     *
+     * @param {UpdateContrattoDTO} body
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async create3(
+      body: UpdateContrattoDTO,
+      options?: AxiosRequestConfig,
+    ): Promise<AxiosResponse<ContrattoDTO>> {
+      return ContrattoControllerApiFp(configuration)
+        .create3(body, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {number} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async delete3(
+      id: number,
+      options?: AxiosRequestConfig,
+    ): Promise<AxiosResponse<void>> {
+      return ContrattoControllerApiFp(configuration)
+        .delete3(id, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {ContrattoCriteria} criteria
+     * @param {Pageable} pageable
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async findAll6(
+      criteria: ContrattoCriteria,
+      pageable: Pageable,
+      options?: AxiosRequestConfig,
+    ): Promise<AxiosResponse<PageContrattoDTO>> {
+      return ContrattoControllerApiFp(configuration)
+        .findAll6(criteria, pageable, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {number} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async findOne1(
+      id: number,
+      options?: AxiosRequestConfig,
+    ): Promise<AxiosResponse<ContrattoDTO>> {
+      return ContrattoControllerApiFp(configuration)
+        .findOne1(id, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @param {UpdateContrattoDTO} body
+     * @param {number} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async update5(
+      body: UpdateContrattoDTO,
+      id: number,
+      options?: AxiosRequestConfig,
+    ): Promise<AxiosResponse<ContrattoDTO>> {
+      return ContrattoControllerApiFp(configuration)
+        .update5(body, id, options)
+        .then((request) => request(axios, basePath));
+    },
+  };
 };
 
 /**
@@ -389,56 +619,83 @@ export const ContrattoControllerApiFactory = function (configuration?: Configura
  * @extends {BaseAPI}
  */
 export class ContrattoControllerApi extends BaseAPI {
-    /**
-     * 
-     * @param {UpdateContrattoDTO} body 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof ContrattoControllerApi
-     */
-    public async create3(body: UpdateContrattoDTO, options?: AxiosRequestConfig) : Promise<AxiosResponse<ContrattoDTO>> {
-        return ContrattoControllerApiFp(this.configuration).create3(body, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @param {number} id 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof ContrattoControllerApi
-     */
-    public async delete3(id: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return ContrattoControllerApiFp(this.configuration).delete3(id, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @param {ContrattoCriteria} criteria 
-     * @param {Pageable} pageable 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof ContrattoControllerApi
-     */
-    public async findAll6(criteria: ContrattoCriteria, pageable: Pageable, options?: AxiosRequestConfig) : Promise<AxiosResponse<PageContrattoDTO>> {
-        return ContrattoControllerApiFp(this.configuration).findAll6(criteria, pageable, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @param {number} id 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof ContrattoControllerApi
-     */
-    public async findOne1(id: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<ContrattoDTO>> {
-        return ContrattoControllerApiFp(this.configuration).findOne1(id, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @param {UpdateContrattoDTO} body 
-     * @param {number} id 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof ContrattoControllerApi
-     */
-    public async update5(body: UpdateContrattoDTO, id: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<ContrattoDTO>> {
-        return ContrattoControllerApiFp(this.configuration).update5(body, id, options).then((request) => request(this.axios, this.basePath));
-    }
+  /**
+   *
+   * @param {UpdateContrattoDTO} body
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof ContrattoControllerApi
+   */
+  public async create3(
+    body: UpdateContrattoDTO,
+    options?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<ContrattoDTO>> {
+    return ContrattoControllerApiFp(this.configuration)
+      .create3(body, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+  /**
+   *
+   * @param {number} id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof ContrattoControllerApi
+   */
+  public async delete3(
+    id: number,
+    options?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<void>> {
+    return ContrattoControllerApiFp(this.configuration)
+      .delete3(id, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+  /**
+   *
+   * @param {ContrattoCriteria} criteria
+   * @param {Pageable} pageable
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof ContrattoControllerApi
+   */
+  public async findAll6(
+    criteria: ContrattoCriteria,
+    pageable: Pageable,
+    options?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<PageContrattoDTO>> {
+    return ContrattoControllerApiFp(this.configuration)
+      .findAll6(criteria, pageable, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+  /**
+   *
+   * @param {number} id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof ContrattoControllerApi
+   */
+  public async findOne1(
+    id: number,
+    options?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<ContrattoDTO>> {
+    return ContrattoControllerApiFp(this.configuration)
+      .findOne1(id, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+  /**
+   *
+   * @param {UpdateContrattoDTO} body
+   * @param {number} id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof ContrattoControllerApi
+   */
+  public async update5(
+    body: UpdateContrattoDTO,
+    id: number,
+    options?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<ContrattoDTO>> {
+    return ContrattoControllerApiFp(this.configuration)
+      .update5(body, id, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
 }
