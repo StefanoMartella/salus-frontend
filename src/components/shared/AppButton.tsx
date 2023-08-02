@@ -20,7 +20,7 @@ function AppButton({
           {children}
           <CircularProgress
             size={15}
-            style={{ color: "yellow", marginLeft: 10 }}
+            style={{ color: "blue", marginLeft: 10 }}
             {...circularProgressProps}
           />
         </div>

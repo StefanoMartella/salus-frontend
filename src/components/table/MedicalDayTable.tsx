@@ -10,7 +10,8 @@ import {
   PageMedicalDayDTO,
 } from "../../api";
 import MedicalDayState from "../shared/MedicalDayState";
-import ServerSideTable from "./ServerSideTable";
+import ServerSideTable, { ServerSideTableHandle } from "./ServerSideTable";
+import { Ref, useImperativeHandle, forwardRef, useRef } from "react";
 
 const columns: GridColDef<MedicalDayDTO>[] = [
   { field: "id", headerName: "ID" },
@@ -38,11 +39,21 @@ const columns: GridColDef<MedicalDayDTO>[] = [
   },
 ];
 
-function MedicalDayTable() {
+export type MedicalDaysTableHandle = {
+  refetch: () => void;
+};
+
+const MedicalDayTable = (_: object, ref: Ref<MedicalDaysTableHandle>) => {
   const navigate = useNavigate();
+  const tableRef = useRef<ServerSideTableHandle>(null);
+
+  useImperativeHandle(ref, () => ({
+    refetch: tableRef.current?.refetch ?? (() => null),
+  }));
 
   return (
     <ServerSideTable<PageMedicalDayDTO, MedicalDayDTO>
+      ref={tableRef}
       header="Elenco medical-days"
       columns={columns}
       onRowClick={(item: GridRowParams<MedicalDayDTO>) =>
@@ -57,6 +68,6 @@ function MedicalDayTable() {
       }
     />
   );
-}
+};
 
-export default MedicalDayTable;
+export default forwardRef(MedicalDayTable);

@@ -22,6 +22,7 @@ import { ErrorMessage } from '../models';
 import { PageContrattoDTO } from '../models';
 import { Pageable } from '../models';
 import { UpdateContrattoDTO } from '../models';
+import { flatten } from 'flat';
 /**
  * ContrattoControllerApi - axios parameter creator
  * @export
@@ -134,15 +135,15 @@ export const ContrattoControllerApiAxiosParamCreator = function (configuration?:
             }
             const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarQueryParameter = flatten({...criteria, ...pageable}) as any;
 
-            if (criteria !== undefined) {
-                localVarQueryParameter['criteria'] = criteria;
-            }
+            // if (criteria !== undefined) {
+            //     localVarQueryParameter['criteria'] = criteria;
+            // }
 
-            if (pageable !== undefined) {
-                localVarQueryParameter['pageable'] = pageable;
-            }
+            // if (pageable !== undefined) {
+            //     localVarQueryParameter['pageable'] = pageable;
+            // }
 
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
