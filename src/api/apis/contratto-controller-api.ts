@@ -19,16 +19,20 @@ import globalAxios, {
 import { Configuration } from "../configuration";
 // Some imports not used depending on template conditions
 // @ts-ignore
-import { flatten } from "flat";
-import { BASE_PATH, BaseAPI, RequestArgs, RequiredError } from "../base";
-
 import {
-  ContrattoCriteria,
-  ContrattoDTO,
-  PageContrattoDTO,
-  Pageable,
-  UpdateContrattoDTO,
-} from "../models";
+  BASE_PATH,
+  COLLECTION_FORMATS,
+  RequestArgs,
+  BaseAPI,
+  RequiredError,
+} from "../base";
+import { ContrattoCriteria } from "../models";
+import { ContrattoDTO } from "../models";
+import { ErrorMessage } from "../models";
+import { PageContrattoDTO } from "../models";
+import { Pageable } from "../models";
+import { UpdateContrattoDTO } from "../models";
+import { flatten } from "flat";
 /**
  * ContrattoControllerApi - axios parameter creator
  * @export
@@ -200,13 +204,13 @@ export const ContrattoControllerApiAxiosParamCreator = function (
         ...pageable,
       }) as any;
 
-      //   if (criteria !== undefined) {
-      //     localVarQueryParameter["criteria"] = criteria;
-      //   }
+      // if (criteria !== undefined) {
+      //     localVarQueryParameter['criteria'] = criteria;
+      // }
 
-      //   if (pageable !== undefined) {
-      //     localVarQueryParameter["pageable"] = pageable;
-      //   }
+      // if (pageable !== undefined) {
+      //     localVarQueryParameter['pageable'] = pageable;
+      // }
 
       const query = new URLSearchParams(localVarUrlObj.search);
       for (const key in localVarQueryParameter) {

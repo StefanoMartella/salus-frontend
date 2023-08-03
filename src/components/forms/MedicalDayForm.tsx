@@ -1,48 +1,82 @@
+import Checkbox from "@mui/material/Checkbox";
+import CircularProgress from "@mui/material/CircularProgress";
 import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormGroup from "@mui/material/FormGroup";
 import FormHelperText from "@mui/material/FormHelperText";
 import Grid from "@mui/material/Grid";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
+import { DatePicker } from "@mui/x-date-pickers";
 import { useQueries } from "@tanstack/react-query";
 import { AxiosResponse } from "axios";
-import { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { Dayjs } from "dayjs";
+import { useEffect } from "react";
+import {
+  Controller,
+  FieldValues,
+  SubmitHandler,
+  useFieldArray,
+  useForm,
+} from "react-hook-form";
 import {
   ContrattoControllerApi,
+  DipendenteControllerApi,
   PageContrattoDTO,
+  PageDipendenteDTO,
   SedeControllerApi,
   SedeDTO,
 } from "../../api";
+import { VALIDATION } from "../../utils/validation";
 import AppButton from "../shared/AppButton";
 
-//impostiamo i tipi dei valori che saranno inseriti dentro le input del form, ovviamente string
-export type MedicalDayFormValues = {
+export type MedicalDayFormValues = FieldValues & {
   province: string;
-  doctor: string;
-  date: string;
+  contract: string;
+  date: Dayjs;
+  patients: string[];
 };
 
-//componente del form
-function MedicalDayForm() {
-  const [selectedProvince, setSelectedProvince] = useState("");
+type Props = {
+  onSubmit: SubmitHandler<MedicalDayFormValues>;
+  loading: boolean;
+};
 
-  //useForm restituisce l'oggetto formState, la funzione handleSubmit e l'oggetto control. Quest'ultimo è utile per la gestione degli stati di input del form e per le validazioni. Sotto viene assegnato alla props control di <Controller> per collegare il campo input "province" al form
-  //settiamo poi i valori di default delle stringhe dei campi di input
+function MedicalDayForm({ loading, onSubmit }: Props) {
   const {
+    watch,
     control,
     handleSubmit,
+    getValues,
+    resetField,
     formState: { errors },
   } = useForm<MedicalDayFormValues>({
     defaultValues: {
       province: "",
-      doctor: "",
+      contract: "",
       date: "",
+      patients: [],
     },
   });
-
-  //qui ci servono più queries, quindi usiamo useQueries. Ad esempio provinces restituisce una risposta di tipo AxiosResponse (quindi una risposta Axios) precisamente di tipo SedeDTO array
-  const [{ data: provinces }, { data: doctors }] = useQueries({
+  const { append, remove } = useFieldArray({
+    control,
+    name: "patients",
+    rules: VALIDATION.medicalDay.patients,
+  });
+  const [
+    { data: provinces, isLoading: areProvincesLoading },
+    {
+      data: contracts,
+      isLoading: areContractsLoading,
+      refetch: refetchContracts,
+    },
+    {
+      data: patients,
+      isRefetching: arePatientsLoading,
+      refetch: refetchPatients,
+    },
+  ] = useQueries({
     queries: [
       {
         queryKey: ["provinces"],
@@ -51,19 +85,28 @@ function MedicalDayForm() {
         select: (response: AxiosResponse<SedeDTO[]>) => response.data,
       },
       {
-        queryKey: ["doctors", selectedProvince],
+        queryKey: ["contracts"],
         queryFn: () =>
           new ContrattoControllerApi().findAll6(
             {
-              sedeId: {
-                equals: selectedProvince as unknown as number,
-              },
+              sedeId: { equals: parseInt(getValues("province")) },
             },
-            { page: 0, size: 5 },
+            { page: 0, size: 100 },
           ),
-        //la findAll (puoi controllare) qui restituisce un oggetto PageContrattoDTO, che contiene vari attributi, tra cui il content che contiene un array di ContrattoDTO
         select: (response: AxiosResponse<PageContrattoDTO>) => response.data,
-        enabled: selectedProvince !== "",
+        enabled: false,
+      },
+      {
+        queryKey: ["patients-for-medical-days"],
+        queryFn: () =>
+          new DipendenteControllerApi().findAll5(
+            {
+              idSede: { equals: parseInt(getValues("province")) },
+            },
+            { page: 0, size: 10 },
+          ),
+        select: (response: AxiosResponse<PageDipendenteDTO>) => response.data,
+        enabled: false,
       },
     ],
   });
@@ -73,6 +116,19 @@ function MedicalDayForm() {
   //   refetch();
   // }, [selectedProvince, refetch]);
 
+  useEffect(() => {
+    const subscription = watch((_, { name }) => {
+      if (name === "province") {
+        resetField("contract");
+        resetField("patients");
+        refetchContracts();
+        refetchPatients();
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [refetchContracts, refetchPatients, resetField, watch]);
+
   return (
     <Grid container gap={3} padding={2}>
       {/* l'operatore !! serve per trasformare un valore in booleano: Se errors.province contiene un messaggio di errore (quindi è diverso da undefined), !!errors.province sarà true. Se errors.province è undefined (cioè il campo è valido), !!errors.province sarà false.*/}
@@ -81,33 +137,23 @@ function MedicalDayForm() {
         <Controller
           name="province"
           control={control}
-          rules={{
-            required: { value: true, message: "Questo campo è obbligatorio" },
-          }}
-          // il render serve a specificare una funzione che renderizzerà il componente Select, e passa delle props attraverso l'oggetto field (si poteva lasciare anche solo field e sotto fare field.value e field.onChange)
-          //value indica il value del campo di input attuale (ossia il value dell'option della select selezionato al momento)
-          //onChange: quando l'utente selezionerà altro option della select, onChange si occuperà di aggiornare il valore nel value
+          rules={VALIDATION.medicalDay.province}
           render={({ field: { value, onChange } }) => (
-            <>
-              <Select
-                labelId="province"
-                id="province"
-                value={value}
-                label="Provincia"
-                placeholder="Seleziona provincia"
-                onChange={(event) => {
-                  onChange(event.target.value);
-                  setSelectedProvince(event.target.value);
-                  console.log(event.target.value);
-                }}
-              >
-                {provinces?.map((p) => (
-                  <MenuItem key={p.id} value={p.id}>
-                    {p.denominazione}
-                  </MenuItem>
-                ))}
-              </Select>
-            </>
+            <Select
+              labelId="province"
+              id="province"
+              value={value}
+              label="Provincia"
+              disabled={areProvincesLoading}
+              placeholder="Seleziona provincia"
+              onChange={onChange}
+            >
+              {provinces?.map((p) => (
+                <MenuItem key={p.id} value={p.id}>
+                  {p.denominazione}
+                </MenuItem>
+              ))}
+            </Select>
           )}
         />
         {errors.province?.message && (
@@ -150,12 +196,80 @@ function MedicalDayForm() {
           <FormHelperText>{errors.province.message}</FormHelperText>
         )}
       </FormControl>
-      <AppButton
-        // a quanto pare handleSubmit sà già di dover chiamare la prima funzione solo in caso di form inviato con successo, e la seconda funzione se fallito il submit
-        onClick={handleSubmit(
-          (values) => console.log(values),
-          () => console.error("Campi non validi"),
+      <FormControl fullWidth error={!!errors.contract}>
+        <InputLabel id="contract">Medico</InputLabel>
+        <Controller
+          name="contract"
+          control={control}
+          rules={VALIDATION.medicalDay.contract}
+          render={({ field: { value, onChange } }) => (
+            <Select
+              labelId="contract"
+              id="contract"
+              value={value}
+              label="Medico"
+              disabled={areContractsLoading || areProvincesLoading}
+              placeholder="Seleziona medico"
+              onChange={onChange}
+            >
+              {contracts?.content?.map((d) => (
+                <MenuItem key={d.id} value={d.id}>
+                  {d.medico?.nome} {d.medico?.cognome}
+                </MenuItem>
+              ))}
+            </Select>
+          )}
+        />
+        {errors.contract?.message && (
+          <FormHelperText>{errors.contract.message}</FormHelperText>
         )}
+      </FormControl>
+      <FormControl fullWidth error={!!errors.date}>
+        <Controller
+          name="date"
+          control={control}
+          rules={VALIDATION.medicalDay.date}
+          render={({ field: { value, onChange } }) => (
+            <DatePicker
+              value={value}
+              onChange={onChange}
+              label="Data"
+              format="DD-MM-YYYY"
+              slotProps={{ textField: { error: !!errors.date?.message } }}
+            />
+          )}
+        />
+        {errors.date?.message && (
+          <FormHelperText>{errors.date.message}</FormHelperText>
+        )}
+      </FormControl>
+      {arePatientsLoading ? (
+        <CircularProgress />
+      ) : (
+        <Grid container>
+          <FormGroup>
+            {patients?.content?.map((p, i) => (
+              <FormControlLabel
+                key={p.id}
+                label={`${p.nome} ${p.cognome}`}
+                control={
+                  <Checkbox
+                    value={p.id}
+                    onChange={(_, value) =>
+                      value ? append(`${p.id}`) : remove(i)
+                    }
+                  />
+                }
+              />
+            ))}
+          </FormGroup>
+        </Grid>
+      )}
+      <AppButton
+        isLoading={loading}
+        style={{ marginLeft: "auto" }}
+        variant="contained"
+        onClick={handleSubmit(onSubmit)}
       >
         Crea
       </AppButton>
