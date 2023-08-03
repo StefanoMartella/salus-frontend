@@ -38,11 +38,13 @@ export type MedicalDayFormValues = FieldValues & {
   patients: string[];
 };
 
+//submitHandler (se guardi) prevede una funzione che prende in input un oggetto con props {data e event?} in cui data vuole il tipo passato nel generics. La funzione restituisce una Promise di tipo unknown
 type Props = {
   onSubmit: SubmitHandler<MedicalDayFormValues>;
   loading: boolean;
 };
 
+//prende i props da MedicalDaysPage
 function MedicalDayForm({ loading, onSubmit }: Props) {
   const {
     watch,
@@ -59,11 +61,16 @@ function MedicalDayForm({ loading, onSubmit }: Props) {
       patients: [],
     },
   });
+
+  //lo useFieldArray lo usiamo per gestire l'array patients[], per aggiungere o rimuovere elementi
+  //le rules delle validazioni sono fatte in un altro file
   const { append, remove } = useFieldArray({
     control,
     name: "patients",
     rules: VALIDATION.medicalDay.patients,
   });
+
+  //creiamo le query per le find
   const [
     { data: provinces, isLoading: areProvincesLoading },
     {
@@ -89,6 +96,7 @@ function MedicalDayForm({ loading, onSubmit }: Props) {
         queryFn: () =>
           new ContrattoControllerApi().findAll6(
             {
+              //il getValues prende il value dell'option selezionata dentro la select. "province" è preso dallo useForm
               sedeId: { equals: parseInt(getValues("province")) },
             },
             { page: 0, size: 100 },
@@ -110,12 +118,8 @@ function MedicalDayForm({ loading, onSubmit }: Props) {
       },
     ],
   });
-  console.log("idProvince: ", selectedProvince as unknown as number);
 
-  // useEffect(() => {
-  //   refetch();
-  // }, [selectedProvince, refetch]);
-
+  //il watch è uno state change listener, osserva cioè se ci sono cambiamenti in alcuni stati. In particolare qui controlla se cambia lo stato di province (ossia viene selezionata diversa opzione nella select delle sedi), allora esegue quelle funzioni, ossia refetcha le query
   useEffect(() => {
     const subscription = watch((_, { name }) => {
       if (name === "province") {
@@ -126,6 +130,7 @@ function MedicalDayForm({ loading, onSubmit }: Props) {
       }
     });
 
+    //questa è una funzione di cleanUp per evitare memory leaks quando il componente è unmounted
     return () => subscription.unsubscribe();
   }, [refetchContracts, refetchPatients, resetField, watch]);
 
@@ -161,6 +166,7 @@ function MedicalDayForm({ loading, onSubmit }: Props) {
           <FormHelperText>{errors.province.message}</FormHelperText>
         )}
       </FormControl>
+      {/* !!errors.doctor controlla: se c'è un messaggio, allora il primo ! rende come valore false, il secondo ! lo rirende true */}
       <FormControl fullWidth error={!!errors.doctor}>
         <InputLabel id="doctor">Dottore</InputLabel>
         <Controller
@@ -182,9 +188,9 @@ function MedicalDayForm({ loading, onSubmit }: Props) {
                 placeholder="Seleziona dottore"
                 onChange={onChange}
               >
-                {doctors?.content?.map((d) => (
-                  <MenuItem key={d.id} value={d.id}>
-                    {`${d.medico?.nome} ${d.medico?.cognome}, Scadenza contratto ${d.dataFine}`}
+                {contracts?.content?.map((c) => (
+                  <MenuItem key={c.id} value={c.id}>
+                    {`${c.medico?.nome} ${c.medico?.cognome}, Scadenza contratto ${c.dataFine}`}
                   </MenuItem>
                 ))}
               </Select>
@@ -235,6 +241,7 @@ function MedicalDayForm({ loading, onSubmit }: Props) {
               onChange={onChange}
               label="Data"
               format="DD-MM-YYYY"
+              //slotProps serve per la parte dell'error, da solo (come abbiam fatto negli altri) qui non funziona
               slotProps={{ textField: { error: !!errors.date?.message } }}
             />
           )}
@@ -255,6 +262,7 @@ function MedicalDayForm({ loading, onSubmit }: Props) {
                 control={
                   <Checkbox
                     value={p.id}
+                    //questo serve per aggiungere o rimuovere gli id dei dipendenti delle checkbox selezionate all'array patients[], usando i metodi append e remove di useFieldArray
                     onChange={(_, value) =>
                       value ? append(`${p.id}`) : remove(i)
                     }
