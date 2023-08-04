@@ -2,25 +2,21 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import { DataGrid, DataGridProps, GridPaginationModel } from "@mui/x-data-grid";
-import { useQuery } from "@tanstack/react-query";
+import { QueryKey, useQuery } from "@tanstack/react-query";
 import { AxiosResponse } from "axios";
-import {
-  useEffect,
-  useState,
-  forwardRef,
-  useImperativeHandle,
-  Ref,
-} from "react";
+import { Ref, forwardRef, useImperativeHandle, useState } from "react";
+import { useUpdateEffect } from "../../hooks/useUpdateEffect";
 
 const DEFAULT_PAGE = 0;
 const DEFAULT_PAGE_SIZE = 5;
 
-type Props<PageType> = Omit<DataGridProps, "rows"> & {
+export type ServerSideTableProps<PageType> = Omit<DataGridProps, "rows"> & {
   header?: string;
-  queryKey: string;
+  queryKey: QueryKey;
   queryFn: (
     paginationModel: GridPaginationModel,
   ) => Promise<AxiosResponse<PageType>>;
+  renderAboveTable?: () => JSX.Element;
 };
 
 type PagedResponse<ItemType> = {
@@ -34,57 +30,69 @@ export type ServerSideTableHandle = {
 
 const ServerSideTable = forwardRef(
   <PageType extends PagedResponse<ItemType>, ItemType>(
-    { header, queryKey, queryFn, ...rest }: Props<PageType>,
+    {
+      header,
+      queryKey,
+      queryFn,
+      renderAboveTable,
+      ...rest
+    }: ServerSideTableProps<PageType>,
     ref: Ref<ServerSideTableHandle>,
   ) => {
     const [paginationModel, setPaginationModel] = useState<GridPaginationModel>(
-      {
-        page: DEFAULT_PAGE,
-        pageSize: DEFAULT_PAGE_SIZE,
-      },
+      { page: DEFAULT_PAGE, pageSize: DEFAULT_PAGE_SIZE },
     );
     const { data, refetch, isRefetching } = useQuery({
-      queryKey: [queryKey],
+      queryKey: [...queryKey, paginationModel],
       queryFn: () => queryFn(paginationModel),
       select: (response) => response.data,
-      enabled: false,
     });
 
     useImperativeHandle(ref, () => ({ refetch }));
 
-    useEffect(() => {
-      refetch();
-    }, [paginationModel, refetch]);
+    useUpdateEffect(() => {
+      setPaginationModel((oldPaginationModel) => ({
+        ...oldPaginationModel,
+        page: 0,
+      }));
+    }, [queryFn]);
 
-    return data?.content?.length ? (
+    return (
       <Grid container>
         {header ? (
           <Typography variant="h6" marginY={2} marginBottom={2}>
             {header}
           </Typography>
         ) : null}
-        <Paper sx={{ height: "auto", width: "100%" }}>
-          <DataGrid
-            {...rest}
-            rows={data?.content}
-            rowCount={data.totalElements}
-            paginationModel={paginationModel}
-            onPaginationModelChange={setPaginationModel}
-            paginationMode="server"
-            loading={isRefetching}
-            initialState={{
-              pagination: {
-                paginationModel: {
-                  page: DEFAULT_PAGE,
-                  pageSize: DEFAULT_PAGE_SIZE,
+        {renderAboveTable?.()}
+        {data?.content?.length ? (
+          <Paper sx={{ height: "auto", width: "100%" }}>
+            <DataGrid
+              {...rest}
+              rows={data?.content}
+              rowCount={data.totalElements}
+              paginationModel={paginationModel}
+              onPaginationModelChange={setPaginationModel}
+              paginationMode="server"
+              loading={isRefetching}
+              initialState={{
+                pagination: {
+                  paginationModel: {
+                    page: DEFAULT_PAGE,
+                    pageSize: DEFAULT_PAGE_SIZE,
+                  },
                 },
-              },
-            }}
-            pageSizeOptions={[DEFAULT_PAGE_SIZE, 10]}
-          />
-        </Paper>
+              }}
+              pageSizeOptions={[DEFAULT_PAGE_SIZE, 10]}
+            />
+          </Paper>
+        ) : (
+          <Typography style={{ width: "100%" }} textAlign="center">
+            Nessun risultato
+          </Typography>
+        )}
       </Grid>
-    ) : null;
+    );
   },
 );
 
@@ -94,5 +102,5 @@ export default ServerSideTable as <
   PageType extends PagedResponse<PageItem>,
   PageItem,
 >(
-  props: Props<PageType> & { ref?: Ref<ServerSideTableHandle> },
+  props: ServerSideTableProps<PageType> & { ref?: Ref<ServerSideTableHandle> },
 ) => JSX.Element;

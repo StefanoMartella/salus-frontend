@@ -66,16 +66,8 @@ function MedicalDayForm({ loading, onSubmit }: Props) {
   });
   const [
     { data: provinces, isLoading: areProvincesLoading },
-    {
-      data: contracts,
-      isLoading: areContractsLoading,
-      refetch: refetchContracts,
-    },
-    {
-      data: patients,
-      isRefetching: arePatientsLoading,
-      refetch: refetchPatients,
-    },
+    { data: contracts, isLoading: areContractsLoading },
+    { data: patients, isRefetching: arePatientsLoading },
   ] = useQueries({
     queries: [
       {
@@ -84,7 +76,7 @@ function MedicalDayForm({ loading, onSubmit }: Props) {
         select: (response: AxiosResponse<SedeDTO[]>) => response.data,
       },
       {
-        queryKey: ["contracts"],
+        queryKey: ["contracts", getValues("province")],
         queryFn: () =>
           new ContrattoControllerApi().findAll6(
             {
@@ -93,10 +85,10 @@ function MedicalDayForm({ loading, onSubmit }: Props) {
             { page: 0, size: 100 },
           ),
         select: (response: AxiosResponse<PageContrattoDTO>) => response.data,
-        enabled: false,
+        enabled: !!getValues("province"),
       },
       {
-        queryKey: ["patients-for-medical-days"],
+        queryKey: ["patients-for-medical-days", getValues("province")],
         queryFn: () =>
           new DipendenteControllerApi().findAll5(
             {
@@ -105,7 +97,7 @@ function MedicalDayForm({ loading, onSubmit }: Props) {
             { page: 0, size: 10 },
           ),
         select: (response: AxiosResponse<PageDipendenteDTO>) => response.data,
-        enabled: false,
+        enabled: !!getValues("province"),
       },
     ],
   });
@@ -115,13 +107,11 @@ function MedicalDayForm({ loading, onSubmit }: Props) {
       if (name === "province") {
         resetField("contract");
         resetField("patients");
-        refetchContracts();
-        refetchPatients();
       }
     });
 
     return () => subscription.unsubscribe();
-  }, [refetchContracts, refetchPatients, resetField, watch]);
+  }, [resetField, watch]);
 
   return (
     <Grid container gap={3} padding={2}>
@@ -223,7 +213,7 @@ function MedicalDayForm({ loading, onSubmit }: Props) {
         </Grid>
       )}
       <AppButton
-        isLoading={loading}
+        loading={loading}
         style={{ marginLeft: "auto" }}
         variant="contained"
         onClick={handleSubmit(onSubmit)}

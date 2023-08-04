@@ -8,8 +8,12 @@ import {
   GridValueGetterParams,
 } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
-import { DipendenteControllerApi, DipendenteDTO } from "../../api";
-import ServerSideTable from "./ServerSideTable";
+import {
+  DipendenteControllerApi,
+  DipendenteDTO,
+  PageDipendenteDTO,
+} from "../../api";
+import ServerSideTable, { ServerSideTableProps } from "./ServerSideTable";
 
 const columns: GridColDef<DipendenteDTO>[] = [
   { field: "id", headerName: "ID" },
@@ -52,20 +56,41 @@ const columns: GridColDef<DipendenteDTO>[] = [
   },
 ];
 
-function ContactsTable() {
+export type ContactTableFilters = {
+  doctors: boolean;
+  onlyActives: boolean;
+  query?: string;
+};
+
+type Props = Omit<
+  ServerSideTableProps<PageDipendenteDTO>,
+  "columns" | "queryKey" | "queryFn"
+> & {
+  filters: ContactTableFilters;
+};
+
+function ContactsTable({ filters, ...rest }: Props) {
   const navigate = useNavigate();
 
   return (
-    <ServerSideTable
+    <ServerSideTable<PageDipendenteDTO, DipendenteDTO>
       header="Elenco contatti"
-      queryKey="contacts-list"
+      queryKey={["contacts-list", filters]}
       columns={columns}
       onRowClick={(item: GridRowParams<DipendenteDTO>) =>
         navigate(`/contacts/${item.row.id}`)
       }
       queryFn={({ page, pageSize }) =>
-        new DipendenteControllerApi().findAll5({}, { page, size: pageSize })
+        new DipendenteControllerApi().findAll5(
+          filters.query
+            ? {
+                nome: { contains: filters.query },
+              }
+            : {},
+          { page, size: pageSize },
+        )
       }
+      {...rest}
     />
   );
 }
