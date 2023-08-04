@@ -1,53 +1,45 @@
 import {
+  Navigate,
+  Route,
   createBrowserRouter,
   createRoutesFromElements,
-  Route,
-  Navigate,
 } from "react-router-dom";
 import AppLayout from "../components/layout/AppLayout";
-import MedicalDaysLayout from "../components/layout/MedicalDaysLayout";
+import ContactsTabsLayout from "../components/layout/ContactsTabsLayout";
 import MedicalDaysTabsLayout from "../components/layout/MedicalDaysTabsLayout";
+import CalendarPage from "../pages/calendar/CalendarPage";
+import ContactDetailsPage from "../pages/contacts/ContactDetailsPage";
+import ContactPage from "../pages/contacts/ContactPage";
 import DashboardPage from "../pages/dashboard/DashboardPage";
 import MedicalDaysDetailsPage from "../pages/medical-days/MedicalDaysDetailsPage";
 import MedicalDaysPage from "../pages/medical-days/MedicalDaysPage";
-import ContactPage from "../pages/contacts/ContactPage";
-import ContactsLayout from "../components/layout/ContactsLayout";
-import ContactsTabsLayout from "../components/layout/ContactsTabsLayout";
-import ContactDetailsPage from "../pages/contacts/ContactDetailsPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<AppLayout />}>
       <Route index element={<Navigate to="/dashboard" />} />
       <Route path="dashboard" element={<DashboardPage />} />
-      <Route
-        path="calendar"
-        element={
-          <div>
-            <span>Calendar</span>
-          </div>
-        }
-      />
-      <Route path="visits" element={<MedicalDaysLayout />}>
+      <Route path="calendar" element={<CalendarPage />} />
+      <Route path="visits">
         <Route index element={<MedicalDaysPage />} />
         <Route path=":id" element={<MedicalDaysTabsLayout />}>
           <Route index element={<MedicalDaysDetailsPage />} />
-          <Route path="signatures" element={<span>Foglio firme</span>} />
+          <Route path="signatures" element={<div>Foglio firme</div>} />
         </Route>
       </Route>
-      <Route path="contacts" element={<ContactsLayout />}>
+      <Route path="contacts">
         <Route index element={<ContactPage />} />
         <Route path=":id" element={<ContactsTabsLayout />}>
           <Route index element={<ContactDetailsPage />} />
-          <Route path="visits" element={<span>Visite</span>} />
-          <Route path="user" element={<span>Utenza</span>} />
+          <Route path="visits" element={<div>Visite</div>} />
+          <Route path="user" element={<div>Utenza</div>} />
         </Route>
       </Route>
       <Route
         path="imports"
         element={
           <div>
-            <span>Imports</span>
+            <span>Imports content</span>
           </div>
         }
       />

@@ -2,6 +2,7 @@ import { Outlet, useParams } from "react-router-dom";
 import AppTabs, { AppTabMeta } from "../tabs/AppTabs";
 import { useMemo } from "react";
 import { useTheme } from "@mui/material/styles";
+import HomeBanner from "../shared/HomeBanner";
 
 function MedicalDaysTabsLayout() {
   const theme = useTheme();
@@ -16,10 +17,11 @@ function MedicalDaysTabsLayout() {
   );
 
   return (
-    <div>
+    <>
+      <HomeBanner />
       <AppTabs style={{ marginBottom: theme.spacing(2) }} tabs={tabs} />
       <Outlet />
-    </div>
+    </>
   );
 }
 

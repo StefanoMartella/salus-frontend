@@ -13,6 +13,7 @@ import {
   DipendenteDTO,
   PageDipendenteDTO,
 } from "../../api";
+import { ContactTableFilters } from "../../pages/contacts/ContactPage";
 import ServerSideTable, { ServerSideTableProps } from "./ServerSideTable";
 
 const columns: GridColDef<DipendenteDTO>[] = [
@@ -56,12 +57,6 @@ const columns: GridColDef<DipendenteDTO>[] = [
   },
 ];
 
-export type ContactTableFilters = {
-  doctors: boolean;
-  onlyActives: boolean;
-  query?: string;
-};
-
 type Props = Omit<
   ServerSideTableProps<PageDipendenteDTO>,
   "columns" | "queryKey" | "queryFn"
@@ -69,7 +64,7 @@ type Props = Omit<
   filters: ContactTableFilters;
 };
 
-function ContactsTable({ filters, ...rest }: Props) {
+function EmployeesTable({ filters, ...rest }: Props) {
   const navigate = useNavigate();
 
   return (
@@ -78,7 +73,7 @@ function ContactsTable({ filters, ...rest }: Props) {
       queryKey={["contacts-list", filters]}
       columns={columns}
       onRowClick={(item: GridRowParams<DipendenteDTO>) =>
-        navigate(`/contacts/${item.row.id}`)
+        navigate(`/contacts/${item.row.id}`, { state: { doctor: false } })
       }
       queryFn={({ page, pageSize }) =>
         new DipendenteControllerApi().findAll5(
@@ -95,4 +90,4 @@ function ContactsTable({ filters, ...rest }: Props) {
   );
 }
 
-export default ContactsTable;
+export default EmployeesTable;

@@ -1,7 +1,8 @@
-import { Outlet, useParams } from "react-router-dom";
-import AppTabs, { AppTabMeta } from "../tabs/AppTabs";
-import { useMemo } from "react";
 import { useTheme } from "@mui/material/styles";
+import { useMemo } from "react";
+import { Outlet, useParams } from "react-router-dom";
+import HomeBanner from "../shared/HomeBanner";
+import AppTabs, { AppTabMeta } from "../tabs/AppTabs";
 
 function ContactsTabsLayout() {
   const theme = useTheme();
@@ -17,10 +18,11 @@ function ContactsTabsLayout() {
   );
 
   return (
-    <div>
+    <>
+      <HomeBanner />
       <AppTabs style={{ marginBottom: theme.spacing(2) }} tabs={tabs} />
       <Outlet />
-    </div>
+    </>
   );
 }
 

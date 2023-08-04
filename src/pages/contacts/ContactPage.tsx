@@ -1,28 +1,41 @@
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
-import {
-  ChangeEventHandler,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import ContactFilters from "../../components/filters/ContactFilters";
-import ContactsTable, {
-  ContactTableFilters,
-} from "../../components/table/ContactsTable";
+import HomeBanner from "../../components/shared/HomeBanner";
+import DoctorsTable from "../../components/table/DoctorsTable";
+import EmployeesTable from "../../components/table/EmployeesTable";
+
+export type ContactTableFilters = {
+  doctors: boolean;
+  onlyActives: boolean;
+  query?: string;
+};
 
 function ContactPage() {
   const queryTimeout = useRef<ReturnType<typeof setTimeout>>();
+  const [query, setQuery] = useState<string>("");
   const [contactFilters, setContactFilters] = useState<ContactTableFilters>({
     doctors: false,
     onlyActives: false,
-    query: "",
+    query,
   });
 
-  const updateQuery: ChangeEventHandler<
-    HTMLTextAreaElement | HTMLInputElement
-  > = useCallback(({ target: { value: query } }) => {
+  const renderAboveTable = useCallback(() => {
+    return (
+      <Grid container>
+        <TextField
+          fullWidth
+          sx={{ marginBottom: ({ spacing }) => spacing(2) }}
+          placeholder="Filtra per nome"
+          onChange={(e) => setQuery(e.target.value)}
+          value={query}
+        />
+      </Grid>
+    );
+  }, [query]);
+
+  useEffect(() => {
     clearTimeout(queryTimeout.current);
 
     queryTimeout.current = setTimeout(() => {
@@ -31,7 +44,7 @@ function ContactPage() {
         query,
       }));
     }, 300);
-  }, []);
+  }, [query]);
 
   useEffect(() => {
     return () => clearTimeout(queryTimeout.current);
@@ -39,30 +52,33 @@ function ContactPage() {
 
   return (
     <Grid container>
-      <Grid item xs={2}>
-        <ContactFilters
-          onChange={(filters) =>
-            setContactFilters((oldFilters) => ({
-              ...oldFilters,
-              ...filters,
-            }))
-          }
-        />
-      </Grid>
-      <Grid item xs={10}>
-        <ContactsTable
-          renderAboveTable={() => (
-            <Grid container>
-              <TextField
-                fullWidth
-                sx={{ marginBottom: ({ spacing }) => spacing(2) }}
-                placeholder="Filtra per nome"
-                onChange={updateQuery}
+      <Grid item xs={12}>
+        <HomeBanner />
+        <Grid container spacing={2}>
+          <Grid item xs={2}>
+            <ContactFilters
+              onChange={(filters) =>
+                setContactFilters((oldFilters) => ({
+                  ...oldFilters,
+                  ...filters,
+                }))
+              }
+            />
+          </Grid>
+          <Grid item xs={10}>
+            {contactFilters.doctors ? (
+              <DoctorsTable
+                renderAboveTable={renderAboveTable}
+                filters={contactFilters}
               />
-            </Grid>
-          )}
-          filters={contactFilters}
-        />
+            ) : (
+              <EmployeesTable
+                renderAboveTable={renderAboveTable}
+                filters={contactFilters}
+              />
+            )}
+          </Grid>
+        </Grid>
       </Grid>
     </Grid>
   );

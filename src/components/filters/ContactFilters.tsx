@@ -7,7 +7,7 @@ import ListSubheader from "@mui/material/ListSubheader";
 import Switch from "@mui/material/Switch";
 import { useCallback, useState } from "react";
 import { useUpdateEffect } from "../../hooks/useUpdateEffect";
-import { ContactTableFilters } from "../table/ContactsTable";
+import { ContactTableFilters } from "../../pages/contacts/ContactPage";
 
 type Filters = Omit<ContactTableFilters, "query">;
 
