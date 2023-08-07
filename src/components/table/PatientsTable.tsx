@@ -8,18 +8,18 @@ import AttachmentHandler from "../shared/AttachmentHandler";
 import PatientState from "../shared/PatientState";
 import ClientSideTable from "./ClientSideTable";
 
-type DipendenteInfo = Dipendente & {
+export type EmployeeInfo = Dipendente & {
   visitId: number;
   attachmentId: string | null;
 };
 
-const columns: GridColDef<DipendenteInfo>[] = [
+const columns: GridColDef<EmployeeInfo>[] = [
   { field: "id", headerName: "ID" },
   {
     field: "name",
     headerName: "Nome",
     flex: 1,
-    valueGetter: (param: GridValueGetterParams<DipendenteInfo>) =>
+    valueGetter: (param: GridValueGetterParams<EmployeeInfo>) =>
       `${param.row.nome} ${param.row.cognome}`,
   },
   {
@@ -34,14 +34,14 @@ const columns: GridColDef<DipendenteInfo>[] = [
     field: "task",
     headerName: "Mansione",
     flex: 1,
-    valueGetter: (param: GridValueGetterParams<DipendenteInfo>) =>
+    valueGetter: (param: GridValueGetterParams<EmployeeInfo>) =>
       param.row.mansione,
   },
   {
     field: "attachments",
     headerName: "Allegati",
     flex: 1,
-    renderCell: (param: GridRenderCellParams<DipendenteInfo>) => (
+    renderCell: (param: GridRenderCellParams<EmployeeInfo>) => (
       <AttachmentHandler
         attachmentId={param.row.attachmentId}
         visitId={param.row.visitId}
@@ -51,7 +51,7 @@ const columns: GridColDef<DipendenteInfo>[] = [
 ];
 
 type Props = {
-  patients: DipendenteInfo[];
+  patients: EmployeeInfo[];
 };
 
 function PatientsTable({ patients }: Props) {

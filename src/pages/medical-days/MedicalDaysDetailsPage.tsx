@@ -1,10 +1,12 @@
-import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
-import { Dipendente, MedicaDayControllerApi, MedicalDay } from "../../api";
 import CircularProgress from "@mui/material/CircularProgress";
 import Grid from "@mui/material/Grid";
+import { useQuery } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
+import { MedicaDayControllerApi, MedicalDay } from "../../api";
 import MedicalDaySummary from "../../components/medical-days/MedicalDaySummary";
-import PatientsTable from "../../components/table/PatientsTable";
+import PatientsTable, {
+  EmployeeInfo,
+} from "../../components/table/PatientsTable";
 
 function MedicalDaysDetailsPage() {
   const { id } = useParams();
@@ -28,10 +30,7 @@ function MedicalDaysDetailsPage() {
                 ...v.dipendente,
                 visitId: v.id,
                 attachmentId: v.idCertificato,
-              }) as Dipendente & {
-                visitId: number;
-                attachmentId: string | null;
-              },
+              }) as EmployeeInfo,
           ) ?? []
         }
       />
