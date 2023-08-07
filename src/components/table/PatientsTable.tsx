@@ -1,11 +1,12 @@
-import { Dipendente } from "../../api";
-import AttachmentHandler from "../shared/AttachmentHandler";
-import ClientSideTable from "./ClientSideTable";
 import {
   GridColDef,
   GridRenderCellParams,
   GridValueGetterParams,
 } from "@mui/x-data-grid";
+import { Dipendente } from "../../api";
+import AttachmentHandler from "../shared/AttachmentHandler";
+import PatientState from "../shared/PatientState";
+import ClientSideTable from "./ClientSideTable";
 
 type DipendenteInfo = Dipendente & {
   visitId: number;
@@ -25,8 +26,9 @@ const columns: GridColDef<DipendenteInfo>[] = [
     field: "state",
     headerName: "Stato",
     flex: 1,
-    valueGetter: (param: GridValueGetterParams<DipendenteInfo>) =>
-      param.row.statoAssunzione,
+    renderCell: (param: GridRenderCellParams<Dipendente>) => (
+      <PatientState state={param.row.statoAssunzione} />
+    ),
   },
   {
     field: "task",
