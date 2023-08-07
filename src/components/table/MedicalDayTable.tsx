@@ -62,7 +62,7 @@ const MedicalDayTable = (_: object, ref: Ref<MedicalDaysTableHandle>) => {
       onRowClick={(item: GridRowParams<MedicalDayDTO>) =>
         navigate(`/visits/${item.row.id}`)
       }
-      queryKey="medical-days"
+      queryKey={["medical-days"]}
       queryFn={(paginationModel) =>
         new MedicaDayControllerApi().findAll3(
           {},

@@ -8,13 +8,15 @@ import MedicalDayTable from "../../components/table/MedicalDayTable";
 //componente innestato alla prima pagina: localhost:3000/dashboard
 function DashboardPage() {
   return (
-    <Grid container>
-      <Grid item xs={10} padding={1}>
+    <Grid container spacing={2}>
+      {/* Left container */}
+      <Grid item xs={10}>
         <HomeBanner />
         <HomeBoxes />
         <MedicalDayTable />
       </Grid>
-      <Grid item xs={2} padding={1}>
+      {/* Right container */}
+      <Grid item xs={2}>
         <TodaySection />
         <TodayEvents />
       </Grid>

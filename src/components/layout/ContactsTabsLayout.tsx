@@ -1,6 +1,7 @@
 import { useTheme } from "@mui/material/styles";
 import { useMemo } from "react";
 import { Outlet, useParams } from "react-router-dom";
+import HomeBanner from "../shared/HomeBanner";
 import AppTabs, { AppTabMeta } from "../tabs/AppTabs";
 
 function ContactsTabsLayout() {
@@ -18,11 +19,13 @@ function ContactsTabsLayout() {
   );
 
   return (
-    <div>
+    <>
+      <HomeBanner />
       {/* passiamo come props la lista di tabs, poi il componente si occuperà di ciclarli e renderizzarli */}
+
       <AppTabs style={{ marginBottom: theme.spacing(2) }} tabs={tabs} />
       <Outlet />
-    </div>
+    </>
   );
 }
 

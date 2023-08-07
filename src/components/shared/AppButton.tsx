@@ -3,19 +3,19 @@ import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 
 type Props = ButtonProps & {
-  isLoading?: boolean;
+  loading?: boolean;
   circularProgressProps?: CircularProgressProps;
 };
 
 function AppButton({
-  isLoading,
+  loading,
   children,
   circularProgressProps,
   ...rest
 }: Props) {
   return (
-    <Button disabled={rest.disabled || isLoading} {...rest}>
-      {isLoading ? (
+    <Button disabled={rest.disabled || loading} {...rest}>
+      {loading ? (
         <div className="d-flex align-items-center">
           {children}
           <CircularProgress

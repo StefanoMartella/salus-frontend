@@ -2,6 +2,9 @@ import { useTheme } from "@mui/material/styles";
 import { useMemo } from "react";
 import { Outlet, useParams } from "react-router-dom";
 import AppTabs, { AppTabMeta } from "../tabs/AppTabs";
+import { useMemo } from "react";
+import { useTheme } from "@mui/material/styles";
+import HomeBanner from "../shared/HomeBanner";
 
 //Tabs che compaiono quando dalla pagina /visits clicchi su un medical day e quindi finisci sulla pagina visits/1 ad esempio
 function MedicalDaysTabsLayout() {
@@ -17,10 +20,11 @@ function MedicalDaysTabsLayout() {
   );
 
   return (
-    <div>
+    <>
+      <HomeBanner />
       <AppTabs style={{ marginBottom: theme.spacing(2) }} tabs={tabs} />
       <Outlet />
-    </div>
+    </>
   );
 }
 

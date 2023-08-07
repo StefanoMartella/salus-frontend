@@ -1,17 +1,17 @@
-import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
-import MedicalDayTable from "../../components/table/MedicalDayTable";
-import { useState } from "react";
-import AppModal from "../../components/shared/AppModal";
+import Grid from "@mui/material/Grid";
+import { useMutation } from "@tanstack/react-query";
+import { useEffect, useRef, useState } from "react";
+import { MedicaDayControllerApi } from "../../api";
 import MedicalDayForm, {
   MedicalDayFormValues,
 } from "../../components/forms/MedicalDayForm";
-import { useMutation } from "@tanstack/react-query";
-import { MedicaDayControllerApi } from "../../api";
-import { useEffect } from "react";
+import AppModal from "../../components/shared/AppModal";
+import HomeBanner from "../../components/shared/HomeBanner";
+import MedicalDayTable, {
+  MedicalDaysTableHandle,
+} from "../../components/table/MedicalDayTable";
 import withSnackbar, { SnackbarProps } from "../../hoc/withSnackbar";
-import { MedicalDaysTableHandle } from "../../components/table/MedicalDayTable";
-import { useRef } from "react";
 
 //props importate da withSnackbar.tsx che prevede un oggetto con prop interna chiamata snackbarAttributes che è una funzione che prende in input una props chiamata anch'essa snackbarAttributes di tipo SnackbarAttributes che restituisce void
 type Props = SnackbarProps;
@@ -48,7 +48,7 @@ function MedicalDaysPage({ setSnackbarAttributes }: Props) {
     if (isMedicalDayCreated) {
       setIsModalOpen(false);
       setSnackbarAttributes({
-        message: "Medical-day creato con successo!",
+        message: "Medical-day creato con successo",
         severity: "success",
       });
       tableRef.current?.refetch();
@@ -58,6 +58,9 @@ function MedicalDaysPage({ setSnackbarAttributes }: Props) {
 
   return (
     <Grid container>
+      <Grid item xs={12}>
+        <HomeBanner />
+      </Grid>
       <Button
         onClick={() => setIsModalOpen(true)}
         variant="contained"
