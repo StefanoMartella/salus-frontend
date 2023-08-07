@@ -22,8 +22,17 @@ function MedicalDaysDetailsPage() {
       <MedicalDaySummary medicalDay={medicalDay as MedicalDay} />
       <PatientsTable
         patients={
-          medicalDay?.visiteMediche?.map((v) => v.dipendente as Dipendente) ??
-          []
+          medicalDay?.visiteMediche?.map(
+            (v) =>
+              ({
+                ...v.dipendente,
+                visitId: v.id,
+                attachmentId: v.idCertificato,
+              }) as Dipendente & {
+                visitId: number;
+                attachmentId: string | null;
+              },
+          ) ?? []
         }
       />
     </Grid>

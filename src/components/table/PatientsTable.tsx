@@ -1,40 +1,55 @@
 import { Dipendente } from "../../api";
+import AttachmentHandler from "../shared/AttachmentHandler";
 import ClientSideTable from "./ClientSideTable";
-import { GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import {
+  GridColDef,
+  GridRenderCellParams,
+  GridValueGetterParams,
+} from "@mui/x-data-grid";
 
-const columns: GridColDef<Dipendente>[] = [
+type DipendenteInfo = Dipendente & {
+  visitId: number;
+  attachmentId: string | null;
+};
+
+const columns: GridColDef<DipendenteInfo>[] = [
   { field: "id", headerName: "ID" },
   {
     field: "name",
     headerName: "Nome",
     flex: 1,
-    valueGetter: (param: GridValueGetterParams<Dipendente>) =>
+    valueGetter: (param: GridValueGetterParams<DipendenteInfo>) =>
       `${param.row.nome} ${param.row.cognome}`,
   },
   {
     field: "state",
     headerName: "Stato",
     flex: 1,
-    valueGetter: (param: GridValueGetterParams<Dipendente>) =>
+    valueGetter: (param: GridValueGetterParams<DipendenteInfo>) =>
       param.row.statoAssunzione,
   },
   {
     field: "task",
     headerName: "Mansione",
     flex: 1,
-    valueGetter: (param: GridValueGetterParams<Dipendente>) =>
+    valueGetter: (param: GridValueGetterParams<DipendenteInfo>) =>
       param.row.mansione,
   },
   {
     field: "attachments",
     headerName: "Allegati",
     flex: 1,
-    valueGetter: () => "-",
+    renderCell: (param: GridRenderCellParams<DipendenteInfo>) => (
+      <AttachmentHandler
+        attachmentId={param.row.attachmentId}
+        visitId={param.row.visitId}
+      />
+    ),
   },
 ];
 
 type Props = {
-  patients: Dipendente[];
+  patients: DipendenteInfo[];
 };
 
 function PatientsTable({ patients }: Props) {
