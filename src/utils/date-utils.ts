@@ -1,3 +1,5 @@
+export const SERVER_DATE_FORMAT = "YYYY-MM-DD";
+
 export function getCurrentMonthName(): string {
   return new Date().toLocaleDateString("it", { month: "long" });
 }

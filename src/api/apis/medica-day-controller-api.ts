@@ -23,6 +23,7 @@ import { MedicalDayDTO } from '../models';
 import { PageMedicalDayDTO } from '../models';
 import { Pageable } from '../models';
 import { UpdateMedicalDayDTO } from '../models';
+import { flatten } from 'flat';
 /**
  * MedicaDayControllerApi - axios parameter creator
  * @export
@@ -135,7 +136,7 @@ export const MedicaDayControllerApiAxiosParamCreator = function (configuration?:
             }
             const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {...criteria, ...page} as any;
+            const localVarQueryParameter = flatten({...criteria, ...page}) as any;
 
             // if (criteria !== undefined) {
             //     localVarQueryParameter['criteria'] = criteria;
