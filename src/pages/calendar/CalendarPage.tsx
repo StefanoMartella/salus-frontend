@@ -2,10 +2,19 @@ import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Badge from "@mui/material/Badge";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import { PickersDay, PickersDayProps } from "@mui/x-date-pickers";
-import { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { MedicalDayDTO } from "./../../api/models/medical-day-dto";
+import { useQuery } from "@tanstack/react-query";
+import { MedicaDayControllerApi } from "../../api";
+import AppModal from "../../components/shared/AppModal";
+import { useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { SERVER_DATE_FORMAT } from "../../utils/date-utils";
 
 /*
 
@@ -18,15 +27,17 @@ import { MedicalDayDTO } from "./../../api/models/medical-day-dto";
 
 type ServerDayProps = PickersDayProps<Dayjs> & {
   highlightedDays?: { [key: string]: MedicalDayDTO[] };
+  onMatchClick?: (medicalDays: MedicalDayDTO[]) => void;
 };
 
 function ServerDay({
   highlightedDays = {},
   day,
   outsideCurrentMonth,
+  onMatchClick,
   ...rest
 }: ServerDayProps) {
-  const match = highlightedDays[day.format("YYYY-MM-DD")];
+  const match = highlightedDays[day.format(SERVER_DATE_FORMAT)];
 
   return (
     <Badge
@@ -36,6 +47,7 @@ function ServerDay({
     >
       <PickersDay
         outsideCurrentMonth={outsideCurrentMonth}
+        onClick={match ? () => onMatchClick?.(match) : undefined}
         day={day}
         {...rest}
       />
@@ -43,25 +55,120 @@ function ServerDay({
   );
 }
 
+type DateWindow = {
+  start: string;
+  end: string;
+};
+
 function CalendarPage() {
+  const navigate = useNavigate();
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [selectedDateWindow, setSelectedDateWindow] = useState<DateWindow>({
+    start: dayjs().startOf("month").format(SERVER_DATE_FORMAT),
+    end: dayjs().endOf("month").format(SERVER_DATE_FORMAT),
+  });
+  const [medicalDaysToShow, setMedicalDaysToShow] = useState<MedicalDayDTO[]>(
+    [],
+  );
+  const { data: medicalDays } = useQuery({
+    queryKey: ["calendar-medical-days", selectedDateWindow],
+    queryFn: () =>
+      new MedicaDayControllerApi().findAll3(
+        {
+          dataGiorno: {
+            greaterThanOrEqual: selectedDateWindow.start,
+            lessThanOrEqual: selectedDateWindow.end,
+          },
+        },
+        { page: 0, size: 100 },
+      ),
+    select: (response) => response.data,
+  });
+
+  const onDateChange = useCallback((date: Dayjs) => {
+    setSelectedDateWindow({
+      start: date.startOf("month").format(SERVER_DATE_FORMAT),
+      end: date.endOf("month").format(SERVER_DATE_FORMAT),
+    });
+  }, []);
+
   return (
     <Grid container>
       <Card style={{ width: "100%" }} elevation={5}>
         <CardContent>
           <DateCalendar
+            onMonthChange={onDateChange}
+            onYearChange={onDateChange}
+            sx={{
+              width: "100%",
+              maxHeight: "inherit",
+              "& .MuiDateCalendar-viewTransitionContainer": ({ spacing }) => ({
+                "& button": {
+                  fontSize: 16,
+                },
+                "& > div > div": {
+                  justifyContent: "space-between !important",
+                  padding: `0 ${spacing(1.25)}`,
+                },
+                "& div[role=row]": {
+                  padding: `${spacing(3)} ${spacing(1.25)}`,
+                  justifyContent: "space-between !important",
+                },
+                "& div[role=presentation]": {
+                  minHeight: 550,
+                },
+              }),
+            }}
             slots={{
               day: (props: PickersDayProps<Dayjs>) => <ServerDay {...props} />,
             }}
             slotProps={
               {
                 day: {
-                  highlightedDays: { "2023-08-05": [{ id: 1 }] },
+                  onMatchClick: (medicalDays: MedicalDayDTO[]) => {
+                    setMedicalDaysToShow(medicalDays);
+                    setIsModalVisible(true);
+                  },
+                  highlightedDays: medicalDays?.content?.reduce(
+                    (accumulator, current) => {
+                      const date = dayjs(current.data).format(
+                        SERVER_DATE_FORMAT,
+                      );
+                      return {
+                        ...accumulator,
+                        [date]: accumulator[date]
+                          ? [...accumulator.date, current]
+                          : [current],
+                      };
+                    },
+                    {} as { [key: string]: MedicalDayDTO[] },
+                  ),
                 },
               } as never
             }
           />
         </CardContent>
       </Card>
+      <AppModal
+        title="Eventi del giorno"
+        open={isModalVisible}
+        onClose={() => setIsModalVisible(false)}
+      >
+        <List>
+          {medicalDaysToShow.map((md) => (
+            <ListItem
+              key={md.id}
+              style={{ cursor: "pointer" }}
+              onClick={() => navigate(`/visits/${md.id}`)}
+            >
+              <ListItemText
+                primary={`${md.contratto.medico?.nome} ${md.contratto.medico?.nome}`}
+                secondary={md.contratto.sede?.denominazione}
+              />
+            </ListItem>
+          ))}
+        </List>
+      </AppModal>
     </Grid>
   );
 }
