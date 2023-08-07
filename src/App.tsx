@@ -6,6 +6,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import "dayjs/locale/it";
+import ErrorService from "./services/ErrorService";
 
 dayjs.locale("it");
 
@@ -24,6 +25,7 @@ function App() {
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <AppThemeProvider>
           <RouterProvider router={router} />
+          <ErrorService />
         </AppThemeProvider>
       </LocalizationProvider>
     </QueryClientProvider>

@@ -10,6 +10,7 @@ import MedicalDaysTabsLayout from "../components/layout/MedicalDaysTabsLayout";
 import CalendarPage from "../pages/calendar/CalendarPage";
 import ContactDetailsPage from "../pages/contacts/ContactDetailsPage";
 import ContactPage from "../pages/contacts/ContactPage";
+import ContactVisitsPage from "../pages/contacts/ContactVisitsPage";
 import DashboardPage from "../pages/dashboard/DashboardPage";
 import MedicalDaysDetailsPage from "../pages/medical-days/MedicalDaysDetailsPage";
 import MedicalDaysPage from "../pages/medical-days/MedicalDaysPage";
@@ -31,7 +32,7 @@ const router = createBrowserRouter(
         <Route index element={<ContactPage />} />
         <Route path=":id" element={<ContactsTabsLayout />}>
           <Route index element={<ContactDetailsPage />} />
-          <Route path="visits" element={<div>Visite</div>} />
+          <Route path="visits" element={<ContactVisitsPage />} />
           <Route path="user" element={<div>Utenza</div>} />
         </Route>
       </Route>

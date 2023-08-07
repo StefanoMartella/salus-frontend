@@ -11,6 +11,17 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
+import globalAxios, { AxiosError } from 'axios'
+import { ErrorMessage } from './models';
+
+globalAxios.interceptors.response.use(response => response, (error: AxiosError<ErrorMessage>) => {
+  if (error.response && error.response.status > 399 && error.response.status < 500) {
+    window.dispatchEvent(new CustomEvent('axios-error', {detail: error.response.data.message}))
+  }
+  return Promise.reject(error)
+})
+
 export * from "./api";
 export * from "./configuration";
 export * from "./models";

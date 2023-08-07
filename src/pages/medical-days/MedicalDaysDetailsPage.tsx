@@ -1,10 +1,12 @@
-import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
-import { Dipendente, MedicaDayControllerApi, MedicalDay } from "../../api";
 import CircularProgress from "@mui/material/CircularProgress";
 import Grid from "@mui/material/Grid";
+import { useQuery } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
+import { MedicaDayControllerApi, MedicalDay } from "../../api";
 import MedicalDaySummary from "../../components/medical-days/MedicalDaySummary";
-import PatientsTable from "../../components/table/PatientsTable";
+import PatientsTable, {
+  EmployeeInfo,
+} from "../../components/table/PatientsTable";
 
 function MedicalDaysDetailsPage() {
   const { id } = useParams(); //prendiamo l'id dall'url come param
@@ -24,8 +26,14 @@ function MedicalDaysDetailsPage() {
       <MedicalDaySummary medicalDay={medicalDay as MedicalDay} />
       <PatientsTable
         patients={
-          medicalDay?.visiteMediche?.map((v) => v.dipendente as Dipendente) ??
-          []
+          medicalDay?.visiteMediche?.map(
+            (v) =>
+              ({
+                ...v.dipendente,
+                visitId: v.id,
+                attachmentId: v.idCertificato,
+              }) as EmployeeInfo,
+          ) ?? []
         }
       />
     </Grid>

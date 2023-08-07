@@ -8,6 +8,7 @@ import { useRouteMatch } from "../../hooks/useRouteMatch";
 export type AppTabMeta = {
   to: string;
   label: string;
+  state?: object;
 };
 
 //definiamo un tipo che estende le props di TabsProps (di Material) e gli aggiungiamo noi la proprietà tabs
@@ -22,13 +23,14 @@ function AppTabs({ tabs, ...rest }: Props) {
 
   return (
     <Tabs value={currentTab} {...rest}>
-      {tabs.map(({ label, to }) => (
+      {tabs.map(({ label, to, state }) => (
         <Tab
           key={to}
           style={{ padding: theme.spacing(3) }}
           label={label}
           value={to}
           to={to.replaceAll("*", "")}
+          state={state}
           component={Link}
         />
       ))}
