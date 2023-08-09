@@ -25,6 +25,7 @@ import { VisitaIdCertificatoBody } from '../models';
 import { VisitaMedicaCertificatoDTO } from '../models';
 import { VisitaMedicaCriteria } from '../models';
 import { VisitaMedicaDTO } from '../models';
+import { flatten } from 'flat';
 /**
  * VisitaMedicaControllerApi - axios parameter creator
  * @export
@@ -215,15 +216,15 @@ export const VisitaMedicaControllerApiAxiosParamCreator = function (configuratio
             }
             const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            const localVarQueryParameter = flatten({...criteria, ...page}) as any;
 
-            if (criteria !== undefined) {
-                localVarQueryParameter['criteria'] = criteria;
-            }
+            // if (criteria !== undefined) {
+            //     localVarQueryParameter['criteria'] = criteria;
+            // }
 
-            if (page !== undefined) {
-                localVarQueryParameter['page'] = page;
-            }
+            // if (page !== undefined) {
+            //     localVarQueryParameter['page'] = page;
+            // }
 
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
