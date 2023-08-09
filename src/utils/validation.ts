@@ -7,4 +7,10 @@ export const VALIDATION = {
     date: { required },
     patients: {},
   },
+  certificate: {
+    eligibility: {},
+    eligibilityRenew: { required },
+    prescription: { required },
+    file: { required },
+  },
 };

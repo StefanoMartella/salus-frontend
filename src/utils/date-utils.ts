@@ -1,3 +1,4 @@
+export const DISPLAYED_DATE_FORMAT = "DD-MM-YYYY";
 export const SERVER_DATE_FORMAT = "YYYY-MM-DD";
 export const LONG_DATE_FORMAT = "dddd, DD MMMM YYYY";
 
