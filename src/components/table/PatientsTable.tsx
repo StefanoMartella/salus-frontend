@@ -1,13 +1,14 @@
 import {
   GridColDef,
   GridRenderCellParams,
+  GridRowParams,
   GridValueGetterParams,
 } from "@mui/x-data-grid";
-import { Dipendente } from "../../api";
+import { Dipendente, DipendenteDTO } from "../../api";
 import AttachmentHandler from "../shared/AttachmentHandler";
 import PatientState from "../shared/PatientState";
 import ClientSideTable from "./ClientSideTable";
-
+import { useNavigate } from "react-router-dom";
 export type EmployeeInfo = Dipendente & {
   visitId: number;
   attachmentId: string | null;
@@ -55,8 +56,24 @@ type Props = {
 };
 
 function PatientsTable({ patients }: Props) {
+  const navigate = useNavigate();
   return (
-    <ClientSideTable header="Pazienti" rows={patients} columns={columns} />
+    <ClientSideTable
+      onRowClick={(item: GridRowParams<DipendenteDTO>) =>
+        navigate(`/contacts/${item.row.id}`, {
+          state: {
+            isDoctor: false,
+            nome: item.row.nome,
+            cognome: item.row.cognome,
+            sedeDenominazione: item.row.sede?.denominazione,
+            provincia: item.row.sede?.provincia,
+          },
+        })
+      }
+      header="Pazienti"
+      rows={patients}
+      columns={columns}
+    />
   );
 }
 

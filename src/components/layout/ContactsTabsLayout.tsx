@@ -1,17 +1,24 @@
 import { useTheme } from "@mui/material/styles";
 import { useMemo } from "react";
 import { Outlet, useLocation, useParams } from "react-router-dom";
-import HomeBanner from "../shared/HomeBanner";
+//import HomeBanner from "../shared/HomeBanner";
 import AppTabs, { AppTabMeta } from "../tabs/AppTabs";
+import UserBanner from "../../pages/contacts/UserBanner";
+import HomeBanner from "../shared/HomeBanner";
 
 type LocationState = {
   isDoctor: boolean;
+  nome: string;
+  cognome: string;
+  sedeDenominazione: string;
+  provincia: string;
 };
 
 function ContactsTabsLayout() {
   const theme = useTheme();
   const { id } = useParams();
-  const { isDoctor } = useLocation().state as LocationState;
+  const { isDoctor, nome, cognome, sedeDenominazione, provincia } =
+    useLocation().state as LocationState;
 
   const tabs: AppTabMeta[] = useMemo(
     () => [
@@ -24,7 +31,17 @@ function ContactsTabsLayout() {
 
   return (
     <>
-      <HomeBanner />
+      {id ? (
+        <UserBanner
+          nome={nome}
+          cognome={cognome}
+          sedeDenominazione={sedeDenominazione}
+          provincia={provincia}
+        />
+      ) : (
+        <HomeBanner />
+      )}
+
       <AppTabs style={{ marginBottom: theme.spacing(2) }} tabs={tabs} />
       <Outlet />
     </>

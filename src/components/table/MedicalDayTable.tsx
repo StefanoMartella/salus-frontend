@@ -57,7 +57,7 @@ const MedicalDayTable = (_: object, ref: Ref<MedicalDaysTableHandle>) => {
       header="Elenco medical-days"
       columns={columns}
       onRowClick={(item: GridRowParams<MedicalDayDTO>) =>
-        navigate(`/visits/${item.row.id}`)
+        navigate(`/visits/${item.row.id}/`)
       }
       queryKey={["medical-days"]}
       queryFn={(paginationModel) =>

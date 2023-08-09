@@ -69,7 +69,15 @@ function DoctorsTable({ filters, ...rest }: Props) {
       queryKey={["contacts-list", filters]}
       columns={columns}
       onRowClick={(item: GridRowParams<MedicoDTO>) =>
-        navigate(`/contacts/${item.row.id}`, { state: { isDoctor: true } })
+        navigate(`/contacts/${item.row.id}`, {
+          state: {
+            isDoctor: false,
+            nome: item.row.nome,
+            cognome: item.row.cognome,
+            sedeDenominazione: " ",
+            provincia: " ",
+          },
+        })
       }
       queryFn={({ page, pageSize }) =>
         new MedicoControllerApi().findAll2(
