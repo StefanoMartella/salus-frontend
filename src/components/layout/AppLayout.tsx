@@ -8,7 +8,6 @@ const tabs: AppTabMeta[] = [
   { label: "Calendario", to: "/calendar/*" },
   { label: "Visite mediche", to: "/visits/*" },
   { label: "Contatti", to: "/contacts/*" },
-  { label: "Batch importati", to: "/imports/*" },
 ];
 
 function AppLayout() {

@@ -27,11 +27,6 @@ function ContactsTabsLayout() {
         to: `/contacts/${id}/visits`,
         state: { isDoctor, title, subTitle },
       },
-      {
-        label: "Utenza",
-        to: `/contacts/${id}/user`,
-        state: { isDoctor, title, subTitle },
-      },
     ],
     [id, isDoctor, subTitle, title],
   );

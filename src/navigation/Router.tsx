@@ -33,17 +33,8 @@ const router = createBrowserRouter(
         <Route path=":id" element={<ContactsTabsLayout />}>
           <Route index element={<ContactDetailsPage />} />
           <Route path="visits" element={<ContactVisitsPage />} />
-          <Route path="user" element={<div>Utenza</div>} />
         </Route>
       </Route>
-      <Route
-        path="imports"
-        element={
-          <div>
-            <span>Imports content</span>
-          </div>
-        }
-      />
     </Route>,
   ),
 );
