@@ -4,7 +4,7 @@ import { useTheme } from "@mui/material/styles";
 import { Link } from "react-router-dom";
 import { useRouteMatch } from "../../hooks/useRouteMatch";
 
-//definiamo un tipo che contiene props "to" e "label" di tipo string
+//definiamo un tipo che contiene props "to" e "label" di tipo string, e poi anche state {isDoctor, onlyActives} opzionale, aggiunto al path
 export type AppTabMeta = {
   to: string;
   label: string;

@@ -19,13 +19,28 @@ function AttachmentHandler({ visitId, attachmentId }: Props) {
     enabled: false,
   });
 
-  const handleClick = useCallback(() => {
-    if (isAttachmentPresent) {
-      downloadAttachment().then((data) => console.log(data));
-    } else {
-      // TODO: Handle upload
-    }
-  }, [downloadAttachment, isAttachmentPresent]);
+  const handleClick: React.MouseEventHandler<HTMLButtonElement> =
+    useCallback(() => {
+      if (isAttachmentPresent) {
+        downloadAttachment().then((response) => {
+          console.log("Blob:", response);
+          const blob = response.data;
+          // Create blob link to download
+          if (blob) {
+            const url = window.URL.createObjectURL(new Blob([blob]));
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute("download", `alluka.png`);
+            link.click();
+            URL.revokeObjectURL(url);
+          } else {
+            console.log("Che palle");
+          }
+        });
+      } else {
+        // TODO: Handle upload
+      }
+    }, [downloadAttachment, isAttachmentPresent]);
 
   return (
     <IconButton color="secondary" onClick={handleClick}>

@@ -112,6 +112,7 @@ function MedicalDayForm({ loading, onSubmit }: Props) {
   });
 
   //il watch è uno state change listener, osserva cioè se ci sono cambiamenti in alcuni stati. In particolare qui controlla se cambia lo stato di province (ossia viene selezionata diversa opzione nella select delle sedi), allora esegue quelle funzioni, ossia refetcha le query
+  //watch prende due input: una funzione di callback (che a noi in sto caso non serve) e il valore da osservare
   useEffect(() => {
     const subscription = watch((_, { name }) => {
       if (name === "province") {

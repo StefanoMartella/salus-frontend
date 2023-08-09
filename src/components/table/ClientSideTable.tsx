@@ -12,6 +12,8 @@ type Props = DataGridProps & {
 };
 
 function ClientSideTable({ header, rows, ...rest }: Props) {
+  console.log("Righe: ", rows.length);
+
   const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
     page: DEFAULT_PAGE,
     pageSize: DEFAULT_PAGE_SIZE,
@@ -42,7 +44,9 @@ function ClientSideTable({ header, rows, ...rest }: Props) {
         />
       </Paper>
     </Grid>
-  ) : null;
+  ) : (
+    <Grid>Nessuna visita medica in questo medical day</Grid>
+  );
 }
 
 export default ClientSideTable;

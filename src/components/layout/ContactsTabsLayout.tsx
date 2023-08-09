@@ -11,6 +11,7 @@ type LocationState = {
 function ContactsTabsLayout() {
   const theme = useTheme();
   const { id } = useParams();
+  //creiamo oggetto con props boolean isDoctor che sta dentro all'oggetto state, che sotto andiamo ad aggiungere all'url/path
   const { isDoctor } = useLocation().state as LocationState;
 
   //useMemo qui è usato solo per ricordare il valore della costante tabs, che è di tipo array AppTabMeta. AppTabMeta è un oggetto che contiene props label e to

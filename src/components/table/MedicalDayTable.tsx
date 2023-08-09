@@ -40,6 +40,13 @@ const columns: GridColDef<MedicalDayDTO>[] = [
       <MedicalDayState state={value.row.statoMedicalDay} />
     ),
   },
+  {
+    field: "data-medical-day",
+    headerName: "Data",
+    flex: 1,
+    valueGetter: (param: GridValueGetterParams<MedicalDayDTO>) =>
+      param.row.data,
+  },
 ];
 
 export type MedicalDaysTableHandle = {

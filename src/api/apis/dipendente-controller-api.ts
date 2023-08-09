@@ -281,7 +281,7 @@ export const DipendenteControllerApiAxiosParamCreator = function (
         ...options,
       };
       const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = { ...criteria, ...page } as any;
+      const localVarQueryParameter = flatten({ ...criteria, ...page }) as any;
 
       // if (criteria !== undefined) {
       //   localVarQueryParameter["criteria"] = criteria;
