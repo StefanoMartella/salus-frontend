@@ -1,9 +1,7 @@
 import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import IconButton from "@mui/material/IconButton/IconButton";
-import { useQuery } from "@tanstack/react-query";
 import { useCallback } from "react";
-import { VisitaMedicaControllerApi } from "../../api";
 
 type Props = {
   visitId: number;
@@ -12,20 +10,19 @@ type Props = {
 
 function AttachmentHandler({ visitId, attachmentId }: Props) {
   const isAttachmentPresent = attachmentId !== null;
-  const { refetch: downloadAttachment } = useQuery({
-    queryKey: ["download-attachment", attachmentId],
-    queryFn: () => new VisitaMedicaControllerApi().downloadDocument(visitId),
-    select: (response) => response.data,
-    enabled: false,
-  });
 
   const handleClick = useCallback(() => {
     if (isAttachmentPresent) {
-      downloadAttachment().then((data) => console.log(data));
+      window.location.href =
+        "http://localhost:8080/api/visita-medica/visite/" +
+        visitId +
+        "/certificato";
     } else {
       // TODO: Handle upload
     }
-  }, [downloadAttachment, isAttachmentPresent]);
+  }, [isAttachmentPresent, visitId]);
+
+  //si fa redirect sul path dove sta  l'immagine
 
   return (
     <IconButton color="secondary" onClick={handleClick}>
