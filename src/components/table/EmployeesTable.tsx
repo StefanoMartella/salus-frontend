@@ -73,7 +73,13 @@ function EmployeesTable({ filters, ...rest }: Props) {
       queryKey={["contacts-list", filters]}
       columns={columns}
       onRowClick={(item: GridRowParams<DipendenteDTO>) =>
-        navigate(`/contacts/${item.row.id}`, { state: { isDoctor: false } })
+        navigate(`/contacts/${item.row.id}`, {
+          state: {
+            isDoctor: false,
+            title: `${item.row.nome} ${item.row.cognome}`,
+            subTitle: `${item.row.sede?.denominazione} - ${item.row.sede?.provincia}`,
+          },
+        })
       }
       queryFn={({ page, pageSize }) =>
         new DipendenteControllerApi().findAll5(

@@ -1,20 +1,20 @@
-import Grid from "@mui/material/Grid";
+import Badge from "@mui/material/Badge";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import Badge from "@mui/material/Badge";
+import Grid from "@mui/material/Grid";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
-import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import { PickersDay, PickersDayProps } from "@mui/x-date-pickers";
-import dayjs, { Dayjs } from "dayjs";
-import { MedicalDayDTO } from "./../../api/models/medical-day-dto";
+import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import { useQuery } from "@tanstack/react-query";
+import dayjs, { Dayjs } from "dayjs";
+import { useCallback, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { MedicaDayControllerApi } from "../../api";
 import AppModal from "../../components/shared/AppModal";
-import { useState, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
-import { SERVER_DATE_FORMAT } from "../../utils/date-utils";
+import { LONG_DATE_FORMAT, SERVER_DATE_FORMAT } from "../../utils/date-utils";
+import { MedicalDayDTO } from "./../../api/models/medical-day-dto";
 
 /*
 
@@ -159,7 +159,17 @@ function CalendarPage() {
             <ListItem
               key={md.id}
               style={{ cursor: "pointer" }}
-              onClick={() => navigate(`/visits/${md.id}`)}
+              onClick={() =>
+                navigate(`/visits/${md.id}`, {
+                  state: {
+                    title: `Medical Day - ${dayjs(
+                      md.data,
+                      SERVER_DATE_FORMAT,
+                    ).format(LONG_DATE_FORMAT)}`,
+                    subTitle: `Medico: ${md.contratto.medico?.nome} ${md.contratto.medico?.cognome}`,
+                  },
+                })
+              }
             >
               <ListItemText
                 primary={`${md.contratto.medico?.nome} ${md.contratto.medico?.nome}`}

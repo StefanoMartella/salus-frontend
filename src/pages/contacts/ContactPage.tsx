@@ -2,9 +2,9 @@ import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import { useCallback, useEffect, useRef, useState } from "react";
 import ContactFilters from "../../components/filters/ContactFilters";
-import HomeBanner from "../../components/shared/HomeBanner";
 import DoctorsTable from "../../components/table/DoctorsTable";
 import EmployeesTable from "../../components/table/EmployeesTable";
+import AppBanner from "../../components/shared/AppBanner";
 
 export type ContactTableFilters = {
   doctors: boolean;
@@ -53,7 +53,7 @@ function ContactPage() {
   return (
     <Grid container>
       <Grid item xs={12}>
-        <HomeBanner />
+        <AppBanner title="Contatti" />
         <Grid container spacing={2}>
           <Grid item xs={2}>
             <ContactFilters
