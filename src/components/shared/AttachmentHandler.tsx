@@ -35,7 +35,7 @@ function AttachmentHandler({ visitId, attachmentId }: Props) {
       );
       formData.set("prescrizione", prescription);
       formData.set("visitId", `${visitId}`);
-      formData.set("file", await (await fetch(file)).blob());
+      formData.set("file", file);
 
       return new VisitaMedicaControllerApi().uploadCertificato(
         formData,

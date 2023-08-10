@@ -17,7 +17,7 @@ export type CertificateFormValues = {
   eligibility: boolean;
   eligibilityRenew: Dayjs;
   prescription: string;
-  file: string;
+  file: File;
 };
 
 type Props = {
@@ -35,7 +35,7 @@ function CertificateForm({ onSubmit, loading }: Props) {
       eligibility: false,
       eligibilityRenew: "",
       prescription: "",
-      file: "",
+      file: undefined,
     },
   });
 
