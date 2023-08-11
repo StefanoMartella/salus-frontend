@@ -12,6 +12,8 @@ import {
 import MedicalDayState from "../shared/MedicalDayState";
 import ServerSideTable, { ServerSideTableHandle } from "./ServerSideTable";
 import { Ref, useImperativeHandle, forwardRef, useRef } from "react";
+import dayjs from "dayjs";
+import { LONG_DATE_FORMAT, SERVER_DATE_FORMAT } from "../../utils/date-utils";
 
 //definiamo le colonne che verranno inserite nella nostra tabella
 const columns: GridColDef<MedicalDayDTO>[] = [
@@ -67,7 +69,15 @@ const MedicalDayTable = (_: object, ref: Ref<MedicalDaysTableHandle>) => {
       header="Elenco medical-days"
       columns={columns}
       onRowClick={(item: GridRowParams<MedicalDayDTO>) =>
-        navigate(`/visits/${item.row.id}`)
+        navigate(`/visits/${item.row.id}`, {
+          state: {
+            title: `Medical Day - ${dayjs(
+              item.row.data,
+              SERVER_DATE_FORMAT,
+            ).format(LONG_DATE_FORMAT)}`,
+            subTitle: `Medico: ${item.row.contratto.medico?.nome} ${item.row.contratto.medico?.cognome}`,
+          },
+        })
       }
       queryKey={["medical-days"]}
       queryFn={(paginationModel) =>

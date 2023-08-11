@@ -28,6 +28,7 @@ import {
   SedeControllerApi,
   SedeDTO,
 } from "../../api";
+import { DISPLAYED_DATE_FORMAT } from "../../utils/date-utils";
 import { VALIDATION } from "../../utils/validation";
 import AppButton from "../shared/AppButton";
 
@@ -231,8 +232,7 @@ function MedicalDayForm({ loading, onSubmit }: Props) {
               value={value}
               onChange={onChange}
               label="Data"
-              format="DD-MM-YYYY"
-              //slotProps serve per la parte dell'error, da solo (come abbiam fatto negli altri) qui non funziona
+              format={DISPLAYED_DATE_FORMAT}
               slotProps={{ textField: { error: !!errors.date?.message } }}
             />
           )}

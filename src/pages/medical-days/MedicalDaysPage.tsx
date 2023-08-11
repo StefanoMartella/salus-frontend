@@ -7,11 +7,11 @@ import MedicalDayForm, {
   MedicalDayFormValues,
 } from "../../components/forms/MedicalDayForm";
 import AppModal from "../../components/shared/AppModal";
-import HomeBanner from "../../components/shared/HomeBanner";
 import MedicalDayTable, {
   MedicalDaysTableHandle,
 } from "../../components/table/MedicalDayTable";
 import withSnackbar, { SnackbarProps } from "../../hoc/withSnackbar";
+import AppBanner from "../../components/shared/AppBanner";
 
 //props importate da withSnackbar.tsx che prevede un oggetto con prop interna chiamata snackbarAttributes che è una funzione che prende in input una props chiamata anch'essa snackbarAttributes di tipo SnackbarAttributes che restituisce void
 type Props = SnackbarProps;
@@ -59,7 +59,7 @@ function MedicalDaysPage({ setSnackbarAttributes }: Props) {
   return (
     <Grid container>
       <Grid item xs={12}>
-        <HomeBanner />
+        <AppBanner title="Medical days" />
       </Grid>
       <Button
         onClick={() => setIsModalOpen(true)}

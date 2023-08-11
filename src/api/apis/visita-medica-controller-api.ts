@@ -19,7 +19,7 @@ import globalAxios, {
 import { Configuration } from "../configuration";
 // Some imports not used depending on template conditions
 // @ts-ignore
-import flatten from "flat";
+import { flatten } from "flat";
 import { BASE_PATH, BaseAPI, RequestArgs, RequiredError } from "../base";
 import {
   PageVisitaMedicaCaledarioDTO,
@@ -313,10 +313,7 @@ export const VisitaMedicaControllerApiAxiosParamCreator = function (
         ...options,
       };
       const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = flatten({
-        ...criteria,
-        ...page,
-      }) as any;
+      const localVarQueryParameter = flatten({ ...criteria, ...page }) as any;
 
       // if (criteria !== undefined) {
       //     localVarQueryParameter['criteria'] = criteria;
@@ -504,44 +501,10 @@ export const VisitaMedicaControllerApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     uploadCertificato: async (
-      idoneo: boolean,
-      rinnovoScadenzaIdoneita: string,
-      prescrizione: string,
+      formData: FormData,
       visitaId: number,
-      body?: VisitaIdCertificatoBody,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      // verify required parameter 'idoneo' is not null or undefined
-      if (idoneo === null || idoneo === undefined) {
-        throw new RequiredError(
-          "idoneo",
-          "Required parameter idoneo was null or undefined when calling uploadCertificato.",
-        );
-      }
-      // verify required parameter 'rinnovoScadenzaIdoneita' is not null or undefined
-      if (
-        rinnovoScadenzaIdoneita === null ||
-        rinnovoScadenzaIdoneita === undefined
-      ) {
-        throw new RequiredError(
-          "rinnovoScadenzaIdoneita",
-          "Required parameter rinnovoScadenzaIdoneita was null or undefined when calling uploadCertificato.",
-        );
-      }
-      // verify required parameter 'prescrizione' is not null or undefined
-      if (prescrizione === null || prescrizione === undefined) {
-        throw new RequiredError(
-          "prescrizione",
-          "Required parameter prescrizione was null or undefined when calling uploadCertificato.",
-        );
-      }
-      // verify required parameter 'visitaId' is not null or undefined
-      if (visitaId === null || visitaId === undefined) {
-        throw new RequiredError(
-          "visitaId",
-          "Required parameter visitaId was null or undefined when calling uploadCertificato.",
-        );
-      }
       const localVarPath =
         `/api/visita-medica/visite/{visitaId}/certificato`.replace(
           `{${"visitaId"}}`,
@@ -557,49 +520,15 @@ export const VisitaMedicaControllerApiAxiosParamCreator = function (
         method: "POST",
         ...baseOptions,
         ...options,
+        data: formData,
       };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
 
-      if (idoneo !== undefined) {
-        localVarQueryParameter["idoneo"] = idoneo;
-      }
-
-      if (rinnovoScadenzaIdoneita !== undefined) {
-        localVarQueryParameter["rinnovoScadenzaIdoneita"] =
-          (rinnovoScadenzaIdoneita as any) instanceof Date
-            ? (rinnovoScadenzaIdoneita as any).toISOString().substr(0, 10)
-            : rinnovoScadenzaIdoneita;
-      }
-
-      if (prescrizione !== undefined) {
-        localVarQueryParameter["prescrizione"] = prescrizione;
-      }
-
-      localVarHeaderParameter["Content-Type"] = "application/json";
-
-      const query = new URLSearchParams(localVarUrlObj.search);
-      for (const key in localVarQueryParameter) {
-        query.set(key, localVarQueryParameter[key]);
-      }
-      for (const key in options.params) {
-        query.set(key, options.params[key]);
-      }
-      localVarUrlObj.search = new URLSearchParams(query).toString();
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
         ...headersFromBaseOptions,
         ...options.headers,
       };
-      const needsSerialization =
-        typeof body !== "string" ||
-        localVarRequestOptions.headers?.["Content-Type"] === "application/json";
-      localVarRequestOptions.data = needsSerialization
-        ? JSON.stringify(body !== undefined ? body : {})
-        : body || "";
-
       return {
         url:
           localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
@@ -842,11 +771,8 @@ export const VisitaMedicaControllerApiFp = function (
      * @throws {RequiredError}
      */
     async uploadCertificato(
-      idoneo: boolean,
-      rinnovoScadenzaIdoneita: string,
-      prescrizione: string,
+      formData: FormData,
       visitaId: number,
-      body?: VisitaIdCertificatoBody,
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -857,14 +783,7 @@ export const VisitaMedicaControllerApiFp = function (
       const localVarAxiosArgs =
         await VisitaMedicaControllerApiAxiosParamCreator(
           configuration,
-        ).uploadCertificato(
-          idoneo,
-          rinnovoScadenzaIdoneita,
-          prescrizione,
-          visitaId,
-          body,
-          options,
-        );
+        ).uploadCertificato(formData, visitaId, options);
       return (
         axios: AxiosInstance = globalAxios,
         basePath: string = BASE_PATH,
@@ -1004,22 +923,12 @@ export const VisitaMedicaControllerApiFactory = function (
      * @throws {RequiredError}
      */
     async uploadCertificato(
-      idoneo: boolean,
-      rinnovoScadenzaIdoneita: string,
-      prescrizione: string,
+      formData: FormData,
       visitaId: number,
-      body?: VisitaIdCertificatoBody,
       options?: AxiosRequestConfig,
     ): Promise<AxiosResponse<VisitaMedicaCertificatoDTO>> {
       return VisitaMedicaControllerApiFp(configuration)
-        .uploadCertificato(
-          idoneo,
-          rinnovoScadenzaIdoneita,
-          prescrizione,
-          visitaId,
-          body,
-          options,
-        )
+        .uploadCertificato(formData, visitaId, options)
         .then((request) => request(axios, basePath));
     },
   };
@@ -1155,22 +1064,12 @@ export class VisitaMedicaControllerApi extends BaseAPI {
    * @memberof VisitaMedicaControllerApi
    */
   public async uploadCertificato(
-    idoneo: boolean,
-    rinnovoScadenzaIdoneita: string,
-    prescrizione: string,
+    formData: FormData,
     visitaId: number,
-    body?: VisitaIdCertificatoBody,
     options?: AxiosRequestConfig,
   ): Promise<AxiosResponse<VisitaMedicaCertificatoDTO>> {
     return VisitaMedicaControllerApiFp(this.configuration)
-      .uploadCertificato(
-        idoneo,
-        rinnovoScadenzaIdoneita,
-        prescrizione,
-        visitaId,
-        body,
-        options,
-      )
+      .uploadCertificato(formData, visitaId, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }

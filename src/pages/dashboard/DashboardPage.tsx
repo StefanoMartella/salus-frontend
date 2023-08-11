@@ -1,9 +1,9 @@
 import Grid from "@mui/material/Grid";
-import HomeBanner from "../../components/shared/HomeBanner";
 import HomeBoxes from "../../components/shared/HomeBoxes";
 import TodayEvents from "../../components/shared/TodayEvents";
 import TodaySection from "../../components/shared/TodaySection";
 import MedicalDayTable from "../../components/table/MedicalDayTable";
+import AppBanner from "../../components/shared/AppBanner";
 
 //componente innestato alla prima pagina: localhost:3000/dashboard
 function DashboardPage() {
@@ -11,7 +11,7 @@ function DashboardPage() {
     <Grid container spacing={2}>
       {/* Left container */}
       <Grid item xs={10}>
-        <HomeBanner />
+        <AppBanner title="Salus" subTitle="Bentornato, Stefano!" />
         <HomeBoxes />
         <MedicalDayTable />
       </Grid>

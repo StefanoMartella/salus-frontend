@@ -9,7 +9,6 @@ const tabs: AppTabMeta[] = [
   { label: "Calendario", to: "/calendar/*" },
   { label: "Visite mediche", to: "/visits/*" },
   { label: "Contatti", to: "/contacts/*" },
-  { label: "Batch importati", to: "/imports/*" },
 ];
 
 //componente che corrisponde alla barra di navigazione in alto, uguale per ogni pagina del nostro sito web

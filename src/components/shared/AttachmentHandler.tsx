@@ -1,9 +1,15 @@
 import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import IconButton from "@mui/material/IconButton/IconButton";
-import { useQuery } from "@tanstack/react-query";
-import { useCallback } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { useCallback, useState } from "react";
 import { VisitaMedicaControllerApi } from "../../api";
+import { BASE_PATH } from "../../api/base";
+import { SERVER_DATE_FORMAT } from "../../utils/date-utils";
+import CertificateForm, {
+  CertificateFormValues,
+} from "../forms/CertificateForm";
+import AppModal from "./AppModal";
 
 type Props = {
   visitId: number;
@@ -11,41 +17,57 @@ type Props = {
 };
 
 function AttachmentHandler({ visitId, attachmentId }: Props) {
+  const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
   const isAttachmentPresent = attachmentId !== null;
-  const { refetch: downloadAttachment } = useQuery({
-    queryKey: ["download-attachment", attachmentId],
-    queryFn: () => new VisitaMedicaControllerApi().downloadDocument(visitId),
-    select: (response) => response.data,
-    enabled: false,
+  const { mutate: uploadCertificate, isLoading } = useMutation({
+    mutationKey: ["upload-certificate", visitId],
+    mutationFn: async ({
+      eligibility,
+      eligibilityRenew,
+      prescription,
+      file,
+    }: CertificateFormValues) => {
+      const formData: FormData = new FormData();
+      formData.set("idoneo", `${eligibility}`);
+      formData.set(
+        "rinnovoScadenzaIdoneita",
+        `${eligibilityRenew.format(SERVER_DATE_FORMAT)}`,
+      );
+      formData.set("prescrizione", prescription);
+      formData.set("visitId", `${visitId}`);
+      formData.set("file", file);
+
+      return new VisitaMedicaControllerApi().uploadCertificato(
+        formData,
+        visitId,
+      );
+    },
   });
 
-  const handleClick: React.MouseEventHandler<HTMLButtonElement> =
-    useCallback(() => {
-      if (isAttachmentPresent) {
-        downloadAttachment().then((response) => {
-          console.log("Blob:", response);
-          const blob = response.data;
-          // Create blob link to download
-          if (blob) {
-            const url = window.URL.createObjectURL(new Blob([blob]));
-            const link = document.createElement("a");
-            link.href = url;
-            link.setAttribute("download", `alluka.png`);
-            link.click();
-            URL.revokeObjectURL(url);
-          } else {
-            console.log("Che palle");
-          }
-        });
-      } else {
-        // TODO: Handle upload
-      }
-    }, [downloadAttachment, isAttachmentPresent]);
+  const handleClick = useCallback(() => {
+    if (isAttachmentPresent) {
+      window.location.href = `${BASE_PATH}/api/visita-medica/visite/${visitId}/certificato`;
+    } else {
+      setIsModalOpened(true);
+    }
+  }, [isAttachmentPresent, visitId]);
 
   return (
-    <IconButton color="secondary" onClick={handleClick}>
-      {isAttachmentPresent ? <DownloadForOfflineIcon /> : <FileUploadIcon />}
-    </IconButton>
+    <>
+      <IconButton color="secondary" onClick={handleClick}>
+        {isAttachmentPresent ? <DownloadForOfflineIcon /> : <FileUploadIcon />}
+      </IconButton>
+      <AppModal
+        title="Inserimento certificato"
+        open={isModalOpened}
+        onClose={() => setIsModalOpened(false)}
+      >
+        <CertificateForm
+          onSubmit={(values) => uploadCertificate(values)}
+          loading={isLoading}
+        />
+      </AppModal>
+    </>
   );
 }
 
