@@ -11,6 +11,8 @@ type Props = DataGridProps & {
   header?: string;
 };
 
+//Questo tipo di tabella gestisce la paginazione lato client e quindi viene usata quando si ha già una lista a disposizione
+//In questo caso il componente prende la lista (rows) dal padre PatientsTable a sua volta dal padre MedicalDaysDetailsPage, tramite Props Drilling, quindi l'abbiamo già.
 function ClientSideTable({ header, rows, ...rest }: Props) {
   console.log("Righe: ", rows.length);
 
@@ -27,6 +29,7 @@ function ClientSideTable({ header, rows, ...rest }: Props) {
         </Typography>
       ) : null}
       <Paper sx={{ height: "auto", width: "100%" }}>
+        {/* qui la tabella ha già tutta la lista, e quando l'utente clicca su una pagina diversa, semplicemente mostra i nuovi elementi paginati. Non c'è nessuna chiamata al backend */}
         <DataGrid
           {...rest}
           paginationModel={paginationModel}

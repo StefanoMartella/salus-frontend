@@ -28,6 +28,8 @@ export type ServerSideTableHandle = {
   refetch: () => void;
 };
 
+//Questo tipo di tabella gestisce la paginazione lato server e quindi viene usata quando vogliamo che ad ogni click dell'utente su una pagina diversa della tabella, ci sia una nuova fetch al backend
+//il componente prende in input dal padre una funzione queryFn(paginationModel) che vuole in input un oggetto di tipo paginationModel che prevede le props page e pageSize
 const ServerSideTable = forwardRef(
   <PageType extends PagedResponse<ItemType>, ItemType>(
     {
@@ -42,6 +44,8 @@ const ServerSideTable = forwardRef(
     const [paginationModel, setPaginationModel] = useState<GridPaginationModel>(
       { page: DEFAULT_PAGE, pageSize: DEFAULT_PAGE_SIZE },
     );
+
+    //la queryKey dice che se il valore di paginationModel cambia, ossia quando l'utente clickerà su una nuova pagina della table, la query verrà refetchata con i nuovi valori di paginationModel
     const { data, refetch, isRefetching } = useQuery({
       queryKey: [...queryKey, paginationModel],
       queryFn: () => queryFn(paginationModel),
