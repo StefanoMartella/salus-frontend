@@ -20,6 +20,7 @@ export type CertificateFormValues = {
   file: File;
 };
 
+//onSubmit è una funzione che prende in input le props del type inserito e restituisce una Promise
 type Props = {
   onSubmit: SubmitHandler<CertificateFormValues>;
   loading: boolean;
@@ -42,6 +43,7 @@ function CertificateForm({ onSubmit, loading }: Props) {
   return (
     <Grid container gap={3} padding={2}>
       <FormControl fullWidth error={!!errors.eligibility}>
+        {/* il Controller dice a useForm come cambia lo stato (ossia il valore) per la chiave elegibility */}
         <Controller
           name="eligibility"
           control={control}
@@ -62,6 +64,7 @@ function CertificateForm({ onSubmit, loading }: Props) {
           name="eligibilityRenew"
           control={control}
           rules={VALIDATION.certificate.eligibilityRenew}
+          //value e onChangeestratti dall'oggetto field fornito da react-hook-form. value rappresenta il valore attuale del campo (la data, in forma di stringa), mentre onChange è la funzione da chiamare quando l'utente cambia il valore del campo (seleziona una nuova data).
           render={({ field: { value, onChange } }) => (
             <DatePicker
               value={value}

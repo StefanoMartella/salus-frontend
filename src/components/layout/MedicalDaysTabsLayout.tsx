@@ -17,6 +17,7 @@ function MedicalDaysTabsLayout() {
 
   const tabs: AppTabMeta[] = useMemo(
     () => [
+      //ci prendiamo dallo stato le props title e subtitle e piu sotto le passiamo all'AppBanner
       { label: "Dettagli", to: `/visits/${id}`, state: { title, subTitle } },
       {
         label: "Foglio firme",

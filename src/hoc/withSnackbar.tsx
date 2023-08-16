@@ -30,6 +30,8 @@ function withSnackbar<P>(WrappedComponent: ElementType) {
           }
           {...passThroughProps}
         />
+        {/* in MedicalDaysPage, non appena la useMutation ha effetto, e quindi viene creato un medicalDay, lo useEffect innesca il metodo setSnackbarAttributes e quindi inserisce un message e un severity
+        Quindi qui sotto open sarà true, perché è presente un messaggio */}
         <Snackbar
           open={!!snackbarAttributes.message}
           autoHideDuration={3000}

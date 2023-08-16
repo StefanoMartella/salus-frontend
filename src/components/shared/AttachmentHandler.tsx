@@ -19,6 +19,9 @@ type Props = {
 function AttachmentHandler({ visitId, attachmentId }: Props) {
   const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
   const isAttachmentPresent = attachmentId !== null;
+
+  //uploadCertificate di useMutation viene chiamato al onSubmit di certificateForm, cioè quando l'utente clicca sul button "Inserisci" del form
+  //così facendo onSubmit si porta dietro tutti i valori dei campi del form, assegnandoli a "elegibility, eligibilityRenew, prescription, file" qui sotto
   const { mutate: uploadCertificate, isLoading } = useMutation({
     mutationKey: ["upload-certificate", visitId],
     mutationFn: async ({
@@ -27,6 +30,7 @@ function AttachmentHandler({ visitId, attachmentId }: Props) {
       prescription,
       file,
     }: CertificateFormValues) => {
+      // formData crea una struttura di coppie chiave-valore rappresentante i campi di un form, quelli che prenderà dal component CertificateForm
       const formData: FormData = new FormData();
       formData.set("idoneo", `${eligibility}`);
       formData.set(

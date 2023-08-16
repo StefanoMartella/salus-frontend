@@ -51,14 +51,20 @@ const columns: GridColDef<MedicalDayDTO>[] = [
   },
 ];
 
+//definiamo il type del ref
 export type MedicalDaysTableHandle = {
   refetch: () => void;
 };
 
+//la table prende due props in input: un oggetto non utilizzato (e quindi scritto con convenzione underscore) e poi un ref, che è una funzione che restituisce void
 const MedicalDayTable = (_: object, ref: Ref<MedicalDaysTableHandle>) => {
   const navigate = useNavigate();
+
+  //useRef e useImperativeHandle lavorano assieme
+  //ricordiamo che ServerSideTableHandle è un tipo che prevedere la funzione di refetch
   const tableRef = useRef<ServerSideTableHandle>(null);
 
+  //questo indica quali metodi o properties vengono esposte al componente padre. In questo caso tramite la prop ref si passa la funzione refetch
   useImperativeHandle(ref, () => ({
     refetch: tableRef.current?.refetch ?? (() => null),
   }));
@@ -68,6 +74,9 @@ const MedicalDayTable = (_: object, ref: Ref<MedicalDaysTableHandle>) => {
       ref={tableRef}
       header="Elenco medical-days"
       columns={columns}
+      //al click della riga (ossia di un medical day preciso) navighiamo sulla sua pagina, ma ci passiamo intanto dei dati sotto forma di oggetto state
+      //ci passiamo il title, con una data castata in dayjs, e un subtitle
+      //in questo modo, anche se il componente non è un componente figlio, non compare qui dentro e quindi non possiamo utilizzare il props drilling, possiamo passare comunque delle props inserendo i dati nell'path
       onRowClick={(item: GridRowParams<MedicalDayDTO>) =>
         navigate(`/visits/${item.row.id}`, {
           state: {

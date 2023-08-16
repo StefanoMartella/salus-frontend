@@ -51,6 +51,9 @@ function MedicalDaysPage({ setSnackbarAttributes }: Props) {
         message: "Medical-day creato con successo",
         severity: "success",
       });
+      //qui volevamo che quando è creato un nuovo medical day, la tabella si aggiornasse in automatico con una refetch e mostrasse già il nuovo medical day nella lista
+      //si usa la ref che referenzia la MedicalDayTable e ci permette di utilizzare una sua prop (in sto caso la funzione di refetch)
+      //la funzione di refetch però la iniettiamo noi in MedicalDayTable.tsx tramite useRef e useImperativeHandle, segui il percorso in quei file
       tableRef.current?.refetch();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -73,7 +76,7 @@ function MedicalDaysPage({ setSnackbarAttributes }: Props) {
         Nuovo medical-day
       </Button>
 
-      {/* cosi si prende la capacità di chiamare la refetch fornita dallo useRef */}
+      {/* passiamo al MedicalDayTable la capacità di chiamare la funzione di refetch fornita dallo useRef */}
       <MedicalDayTable ref={tableRef} />
       <AppModal
         title="Nuovo medical-day"
@@ -90,5 +93,5 @@ function MedicalDaysPage({ setSnackbarAttributes }: Props) {
 }
 
 //Non esportiamo solo il MedicalDaysPage, ma proprio tutto l'HOC con quello dentro
-//ma nel Router poi non dovremmo invece importare e chiamare <withSnackbar />?
+//ed è quindi proprio questo HOC che verrà chiamato direttamente dal Router, ossia l'insieme di MedicalDaysPage e Snackbar components
 export default withSnackbar(MedicalDaysPage);
