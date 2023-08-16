@@ -19,10 +19,11 @@ function AppModal({ children, title, ...rest }: Props) {
     <Modal {...rest}>
       <Card
         sx={{
+          //as const serve ad assicurarci che il valore venga trattato da TS come literal
           position: "absolute" as const,
-          top: "30%",
+          top: "50%",
           left: "50%",
-          transform: "translate(-50%, -30%)",
+          transform: "translate(-50%, -50%)",
           width: "80%",
           maxWidth: 1000,
           boxShadow: 24,

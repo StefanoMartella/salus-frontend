@@ -12,6 +12,7 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { SERVER_DATE_FORMAT } from "../../utils/date-utils";
 import { VALIDATION } from "../../utils/validation";
 import AppButton from "../shared/AppButton";
+import { useState, useEffect } from "react";
 
 export type CertificateFormValues = {
   eligibility: boolean;
@@ -39,6 +40,35 @@ function CertificateForm({ onSubmit, loading }: Props) {
       file: undefined,
     },
   });
+
+  const [show, setShow] = useState<boolean>(false);
+  const [selectedFile, setSelectedFile] = useState();
+  const [preview, setPreview] = useState("");
+
+  useEffect(() => {
+    if (!selectedFile) {
+      setPreview("");
+      return;
+    }
+    //se invece c'è un selectedFile, crea un URL temporaneo del file
+    const objectUrl = URL.createObjectURL(selectedFile);
+    setPreview(objectUrl);
+
+    // free memory when ever this component is unmounted
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [selectedFile]);
+
+  const onSelectFile = (event: any) => {
+    //se non l'utente non carica/seleziona alcun file, allora setta i lo stato dei files a undefined
+    if (!event.target.files || event.target.files.length === 0) {
+      setSelectedFile(undefined);
+      return;
+    }
+
+    //prendiamo il primo file della lista di file (supponendo che l'utente carichi un solo file)
+    setSelectedFile(event.target.files[0]);
+    //guarda sotto per il render della anteprima
+  };
 
   return (
     <Grid container gap={3} padding={2}>
@@ -113,6 +143,8 @@ function CertificateForm({ onSubmit, loading }: Props) {
                 value={(value as any)?.fileName}
                 onChange={(event) => {
                   onChange(event.target?.files?.[0]);
+                  setShow(true);
+                  onSelectFile(event);
                 }}
               />
             </Button>
@@ -122,6 +154,9 @@ function CertificateForm({ onSubmit, loading }: Props) {
           <FormHelperText>{errors.file.message}</FormHelperText>
         )}
       </FormControl>
+      {/* mostriamo un'anteprima dell'immagine appena selezionata dall'utente */}
+      {selectedFile && <img style={{ width: 50, height: 50 }} src={preview} />}
+      {!!show && <Grid>Immagine inserita con successo!</Grid>}
       <AppButton
         loading={loading}
         style={{ marginLeft: "auto" }}

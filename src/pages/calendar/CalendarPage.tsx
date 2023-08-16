@@ -30,6 +30,7 @@ type ServerDayProps = PickersDayProps<Dayjs> & {
   onMatchClick?: (medicalDays: MedicalDayDTO[]) => void;
 };
 
+//componente utile per renderizzare tutti i giorni del mese e anche i giorni "highlighted" ossia quelli che avranno un Badge, un simbolo che indica la presenza di un medicalDay in quel giorno
 function ServerDay({
   highlightedDays = {},
   day,
@@ -46,6 +47,7 @@ function ServerDay({
       badgeContent={match && !outsideCurrentMonth ? "✅" : undefined}
     >
       <PickersDay
+        //questo verifica se il giorno è fuori dal mese che si sta visualizzando
         outsideCurrentMonth={outsideCurrentMonth}
         onClick={match ? () => onMatchClick?.(match) : undefined}
         day={day}
@@ -63,6 +65,7 @@ type DateWindow = {
 function CalendarPage() {
   const navigate = useNavigate();
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  //indichiamo il primo e l'ultimo giorno del mese, cosi da refetchare il calendario se questi cambiano (perché cambiato mese)
   const [selectedDateWindow, setSelectedDateWindow] = useState<DateWindow>({
     start: dayjs().startOf("month").format(SERVER_DATE_FORMAT),
     end: dayjs().endOf("month").format(SERVER_DATE_FORMAT),
@@ -70,6 +73,8 @@ function CalendarPage() {
   const [medicalDaysToShow, setMedicalDaysToShow] = useState<MedicalDayDTO[]>(
     [],
   );
+
+  //recuperiamo tutti i medical days racchiusi dentro all'interno del mese che visualizziamo
   const { data: medicalDays } = useQuery({
     queryKey: ["calendar-medical-days", selectedDateWindow],
     queryFn: () =>
@@ -85,6 +90,7 @@ function CalendarPage() {
     select: (response) => response.data,
   });
 
+  //quando l'utente cambia mese o anno, ricalcoliamo quali giorni mostrare
   const onDateChange = useCallback((date: Dayjs) => {
     setSelectedDateWindow({
       start: date.startOf("month").format(SERVER_DATE_FORMAT),
@@ -97,8 +103,10 @@ function CalendarPage() {
       <Card style={{ width: "100%" }} elevation={5}>
         <CardContent>
           <DateCalendar
+            //DateCalendar con queste due props sotto, comprende quando l'utente preme i bottoni per cambiare mese o anno e innesca i metodi rispettivi
             onMonthChange={onDateChange}
             onYearChange={onDateChange}
+            //questo è lo style da usare per avere il calendario a tutto schermo
             sx={{
               width: "100%",
               maxHeight: "inherit",

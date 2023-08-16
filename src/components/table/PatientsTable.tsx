@@ -55,8 +55,6 @@ type Props = {
 };
 
 function PatientsTable({ patients }: Props) {
-  console.log("patients: ", patients.length);
-
   return (
     <ClientSideTable header="Pazienti" rows={patients} columns={columns} />
   );
