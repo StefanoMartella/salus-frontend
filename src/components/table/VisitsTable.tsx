@@ -51,7 +51,7 @@ function VisitsTable({ patientId }: Props) {
       queryFn={({ page, pageSize }) =>
         new VisitaMedicaControllerApi().findAll(
           {
-            // TODO: Passare patientId per recuperare le visite mediche in relazione al paziente
+            idDipendente: { equals: patientId as unknown as number },
           },
           { page, size: pageSize },
         )

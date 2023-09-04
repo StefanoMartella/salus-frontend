@@ -36,7 +36,7 @@ function MedicalDaysPage({ setSnackbarAttributes }: Props) {
       new MedicaDayControllerApi().create1({
         contrattoId: parseInt(values.contract),
         data: values.date.format("YYYY-MM-DD"),
-        // patients: values.patients,
+        // patients: values.patients, (assegnare i pazienti ad orari nella crezione del medicalDay)
       }),
   });
 

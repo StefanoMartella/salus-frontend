@@ -11,46 +11,52 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { StringFilter } from './string-filter';
+import { LongFilter } from "./long-filter";
+import { StringFilter } from "./string-filter";
 /**
- * 
+ *
  * @export
  * @interface VisitaMedicaCriteria
  */
 export interface VisitaMedicaCriteria {
-    /**
-     * 
-     * @type {string}
-     * @memberof VisitaMedicaCriteria
-     */
-    dataMedicalDayInizio?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof VisitaMedicaCriteria
-     */
-    dataMedicalDayFine?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof VisitaMedicaCriteria
-     */
-    statoVisitaMedica?: VisitaMedicaCriteriaStatoVisitaMedicaEnum;
-    /**
-     * 
-     * @type {StringFilter}
-     * @memberof VisitaMedicaCriteria
-     */
-    idCertificato?: StringFilter;
+  /**
+   *
+   * @type {string}
+   * @memberof VisitaMedicaCriteria
+   */
+  dataMedicalDayInizio?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof VisitaMedicaCriteria
+   */
+  dataMedicalDayFine?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof VisitaMedicaCriteria
+   */
+  statoVisitaMedica?: VisitaMedicaCriteriaStatoVisitaMedicaEnum;
+  /**
+   *
+   * @type {StringFilter}
+   * @memberof VisitaMedicaCriteria
+   */
+  idCertificato?: StringFilter;
+  /**
+   *
+   * @type {StringFilter}
+   * @memberof VisitaMedicaCriteria
+   */
+  idDipendente?: LongFilter;
 }
 
 /**
-    * @export
-    * @enum {string}
-    */
+ * @export
+ * @enum {string}
+ */
 export enum VisitaMedicaCriteriaStatoVisitaMedicaEnum {
-    INSERITA = 'INSERITA',
-    EFFETTUATA = 'EFFETTUATA',
-    NONEFFETTUATA = 'NON_EFFETTUATA'
+  INSERITA = "INSERITA",
+  EFFETTUATA = "EFFETTUATA",
+  NONEFFETTUATA = "NON_EFFETTUATA",
 }
-
